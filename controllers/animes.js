@@ -85,7 +85,7 @@ exports.deleteSeries = catchAsync(async (req, res, next) => {
         req.params.id,
         {
             $pull: {
-                episodes: { _id: req.params.seriesId },
+                episodes: { _id: req.params.episodeId },
             },
         },
         { new: true }
