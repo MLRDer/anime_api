@@ -16,6 +16,10 @@
                 "type": "string",
                 "required": true
             },
+            "poster": {
+                "type": "string",
+                "required": true
+            },
             "rating": {
                 "type": "number",
                 "required": true,
@@ -29,11 +33,7 @@
                 "type": "array",
                 "items": {
                     "type": "number",
-                    "enum": [
-                        480,
-                        720,
-                        1080
-                    ]
+                    "enum": [480, 720, 1080]
                 }
             },
             "isSerial": {
@@ -62,6 +62,9 @@
             "image": {
                 "type": "string"
             },
+            "poster": {
+                "type": "string"
+            },
             "rating": {
                 "type": "number",
                 "min": 0,
@@ -74,11 +77,7 @@
                 "type": "array",
                 "items": {
                     "type": "number",
-                    "enum": [
-                        480,
-                        720,
-                        1080
-                    ]
+                    "enum": [480, 720, 1080]
                 }
             },
             "isSerial": {
