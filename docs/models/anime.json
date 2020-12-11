@@ -1,0 +1,124 @@
+{
+    "AnimeCreate": {
+        "properties": {
+            "title": {
+                "type": "string",
+                "required": true
+            },
+            "originalTitle": {
+                "type": "string"
+            },
+            "year": {
+                "type": "number",
+                "required": true
+            },
+            "image": {
+                "type": "string",
+                "required": true
+            },
+            "rating": {
+                "type": "number",
+                "required": true,
+                "min": 0,
+                "max": 10
+            },
+            "description": {
+                "type": "string"
+            },
+            "quality": {
+                "type": "array",
+                "items": {
+                    "type": "number",
+                    "enum": [
+                        480,
+                        720,
+                        1080
+                    ]
+                }
+            },
+            "isSerial": {
+                "type": "boolean",
+                "default": true
+            },
+            "categories": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "AnimeUpdate": {
+        "properties": {
+            "title": {
+                "type": "string"
+            },
+            "originalTitle": {
+                "type": "string"
+            },
+            "year": {
+                "type": "number"
+            },
+            "image": {
+                "type": "string"
+            },
+            "rating": {
+                "type": "number",
+                "min": 0,
+                "max": 10
+            },
+            "description": {
+                "type": "string"
+            },
+            "quality": {
+                "type": "array",
+                "items": {
+                    "type": "number",
+                    "enum": [
+                        480,
+                        720,
+                        1080
+                    ]
+                }
+            },
+            "isSerial": {
+                "type": "boolean",
+                "default": true
+            },
+            "categories": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "AddEpisode": {
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "season": {
+                "type": "number"
+            },
+            "episode": {
+                "type": "number"
+            },
+            "sources": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "quality": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

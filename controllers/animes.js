@@ -1,12 +1,14 @@
-const Anime = require("../models/Anime");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
-const errors = require("../constants/errors");
-require("dotenv/config");
+const Anime = require('../models/Anime');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const errors = require('../constants/errors');
+require('dotenv/config');
 
 exports.getAll = catchAsync(async (req, res, next) => {
-    const category = req.query.category;
-    const animes = await Anime.find(!category ? {} : { category }).lean();
+    const animes = await Anime.find()
+        .sort({ createdAt: -1 })
+
+        .lean();
 
     res.status(200).json({
         success: true,
@@ -50,7 +52,7 @@ exports.update = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        data: Anime,
+        data: anime,
     });
 });
 
@@ -63,7 +65,22 @@ exports.delete = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.addSeries = catchAsync(async (req, res, next) => {
+exports.getEpisodes = catchAsync(async (req, res, next) => {
+    const anime = await Anime.findById(req.params.id)
+        .select('title episodes')
+        .lean();
+
+    if (!anime) {
+        return next(new AppError(404, errors.NOT_FOUND));
+    }
+
+    res.status(200).json({
+        success: true,
+        data: anime,
+    });
+});
+
+exports.addEpisode = catchAsync(async (req, res, next) => {
     const anime = await Anime.findByIdAndUpdate(
         req.params.id,
         {
@@ -72,7 +89,7 @@ exports.addSeries = catchAsync(async (req, res, next) => {
             },
         },
         { new: true }
-    );
+    ).select('episodes');
 
     res.status(200).json({
         success: true,
@@ -80,7 +97,7 @@ exports.addSeries = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.deleteSeries = catchAsync(async (req, res, next) => {
+exports.deleteEpisode = catchAsync(async (req, res, next) => {
     const anime = await Anime.findByIdAndUpdate(
         req.params.id,
         {
@@ -89,7 +106,7 @@ exports.deleteSeries = catchAsync(async (req, res, next) => {
             },
         },
         { new: true }
-    );
+    ).select('episodes');
 
     res.status(200).json({
         success: true,

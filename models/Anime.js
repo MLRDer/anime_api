@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const animeSchema = new Schema({
@@ -24,12 +24,14 @@ const animeSchema = new Schema({
     rating: {
         type: Number,
         required: true,
+        min: 0,
+        max: 10,
     },
     description: {
         type: String,
     },
     quality: {
-        type: Number,
+        type: [Number],
         enum: [480, 720, 1080],
     },
     isSerial: {
@@ -37,16 +39,29 @@ const animeSchema = new Schema({
         default: true,
     },
     categories: [String],
-    episodes: [
-        {
-            url: {
-                type: String,
-                required: true,
+    episodes: {
+        type: [
+            {
+                name: String,
+                season: Number,
+                episode: Number,
+                sources: [
+                    {
+                        url: {
+                            type: String,
+                            required: true,
+                        },
+                        quality: Number,
+                    },
+                ],
             },
-            size: Number,
-            quality: Number,
-        },
-    ],
+        ],
+        select: false,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
-module.exports = mongoose.model("Animes", animeSchema);
+module.exports = mongoose.model('Animes', animeSchema);
