@@ -17,6 +17,10 @@ const animeSchema = new Schema({
         type: String,
         required: true,
     },
+    poster: {
+        type: String,
+        required: true,
+    },
     rating: {
         type: Number,
         required: true,
