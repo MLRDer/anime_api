@@ -2,9 +2,7 @@
     "/api/animes/": {
         "get": {
             "description": "Get all animes",
-            "tags": [
-                "Animes"
-            ],
+            "tags": ["Animes"],
             "responses": {
                 "200": {
                     "description": "OK"
@@ -13,9 +11,7 @@
         },
         "post": {
             "description": "Create anime",
-            "tags": [
-                "Animes"
-            ],
+            "tags": ["Animes"],
             "parameters": [
                 {
                     "in": "body",
@@ -36,9 +32,7 @@
     "/api/animes/{id}": {
         "get": {
             "description": "Get anime by ID",
-            "tags": [
-                "Animes"
-            ],
+            "tags": ["Animes"],
             "parameters": [
                 {
                     "in": "path",
@@ -56,9 +50,7 @@
         },
         "patch": {
             "description": "Update anime",
-            "tags": [
-                "Animes"
-            ],
+            "tags": ["Animes"],
             "parameters": [
                 {
                     "in": "path",
@@ -84,9 +76,7 @@
         },
         "delete": {
             "description": "Delete anime",
-            "tags": [
-                "Animes"
-            ],
+            "tags": ["Animes"],
             "parameters": [
                 {
                     "in": "header",
@@ -106,9 +96,7 @@
     "/api/animes/{id}/episodes": {
         "get": {
             "description": "Get anime episodes by ID",
-            "tags": [
-                "Animes"
-            ],
+            "tags": ["Animes"],
             "parameters": [
                 {
                     "in": "path",
@@ -126,9 +114,7 @@
         },
         "post": {
             "description": "Add episode to anime",
-            "tags": [
-                "Animes"
-            ],
+            "tags": ["Animes"],
             "parameters": [
                 {
                     "in": "path",
@@ -156,9 +142,7 @@
     "/api/animes/{id}/episodes/{episodeId}": {
         "delete": {
             "description": "Delete episode from anime",
-            "tags": [
-                "Animes"
-            ],
+            "tags": ["Animes"],
             "parameters": [
                 {
                     "in": "path",
@@ -177,6 +161,69 @@
             ],
             "responses": {
                 "204": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/animes/search": {
+        "get": {
+            "description": "Get animes by search",
+            "tags": ["Animes"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "search",
+                    "description": "Anime title to search",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/animes/filter": {
+        "get": {
+            "description": "Get animes by filter",
+            "tags": ["Animes"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "quality",
+                    "description": "Anime quality to filter",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "year",
+                    "description": "Anime year to filter",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "categories",
+                    "description": "Anime categories to filter (separated with ,)",
+                    "type": "string"
+                },
+                {
+                    "in": "query",
+                    "name": "rating",
+                    "description": "Anime rating to filter",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "isSerial",
+                    "description": "Anime isSerial to filter",
+                    "type": "boolean"
+                }
+            ],
+            "responses": {
+                "200": {
                     "description": "OK"
                 }
             }

@@ -115,6 +115,7 @@ exports.deleteEpisode = catchAsync(async (req, res, next) => {
 });
 
 exports.search = catchAsync(async (req, res, next) => {
+    console.log(req.query);
     const search = await Anime.find(
         {
             $text: {
@@ -139,7 +140,7 @@ exports.filter = catchAsync(async (req, res, next) => {
 
     quality && (query.quality = quality);
     year && (query.year = year);
-    categories && (query.categories = { $in: categories });
+    categories && (query.categories = { $in: categories.split(",") });
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
 

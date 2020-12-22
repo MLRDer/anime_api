@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const animeSchema = new Schema({
@@ -64,4 +64,6 @@ const animeSchema = new Schema({
     },
 });
 
-module.exports = mongoose.model('Animes', animeSchema);
+animeSchema.index({ title: "text", originalTitle: "text", categories: "text" });
+
+module.exports = mongoose.model("Animes", animeSchema);
