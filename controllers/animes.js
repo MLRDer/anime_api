@@ -30,11 +30,32 @@ exports.get = catchAsync(async (req, res, next) => {
 });
 
 exports.create = catchAsync(async (req, res, next) => {
-    const anime = await Anime.create(req.body);
+    let query = {};
+    const { quality, year, categories, rating, isSerial } = req.query;
 
-    res.status(201).json({
+    quality && (query.quality = quality);
+    year && (query.year = year);
+    categories && (query.categories = { $in: categories.split(",") });
+    rating && (query.rating = { $gte: rating });
+    isSerial && (query.isSerial = isSerial);
+
+    const animes = await Anime.find(query).lean();
+
+    res.status(200).json({
         success: true,
-        data: anime,
+        data: animes,
+    });
+});
+
+exports.card = catchAsync(async (req, res, next) => {
+    const card = await Anime.find({ isCard: true })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .lean();
+
+    res.status(200).json({
+        success: true,
+        data: card,
     });
 });
 

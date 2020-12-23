@@ -58,6 +58,10 @@ const animeSchema = new Schema({
         ],
         select: false,
     },
+    isCard: {
+        type: Boolean,
+        default: false,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

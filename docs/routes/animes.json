@@ -1,8 +1,40 @@
 {
     "/api/animes/": {
         "get": {
-            "description": "Get all animes",
+            "description": "Get animes by filter",
             "tags": ["Animes"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "quality",
+                    "description": "Anime quality to filter",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "year",
+                    "description": "Anime year to filter",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "categories",
+                    "description": "Anime categories to filter (separated with ,)",
+                    "type": "string"
+                },
+                {
+                    "in": "query",
+                    "name": "rating",
+                    "description": "Anime rating to filter",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "isSerial",
+                    "description": "Anime isSerial to filter",
+                    "type": "boolean"
+                }
+            ],
             "responses": {
                 "200": {
                     "description": "OK"
@@ -24,6 +56,17 @@
             ],
             "responses": {
                 "201": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/animes/card": {
+        "get": {
+            "description": "Get card stack animes",
+            "tags": ["Animes"],
+            "responses": {
+                "200": {
                     "description": "OK"
                 }
             }
@@ -177,49 +220,6 @@
                     "description": "Anime title to search",
                     "required": true,
                     "type": "string"
-                }
-            ],
-            "responses": {
-                "200": {
-                    "description": "OK"
-                }
-            }
-        }
-    },
-    "/api/animes/filter": {
-        "get": {
-            "description": "Get animes by filter",
-            "tags": ["Animes"],
-            "parameters": [
-                {
-                    "in": "query",
-                    "name": "quality",
-                    "description": "Anime quality to filter",
-                    "type": "number"
-                },
-                {
-                    "in": "query",
-                    "name": "year",
-                    "description": "Anime year to filter",
-                    "type": "number"
-                },
-                {
-                    "in": "query",
-                    "name": "categories",
-                    "description": "Anime categories to filter (separated with ,)",
-                    "type": "string"
-                },
-                {
-                    "in": "query",
-                    "name": "rating",
-                    "description": "Anime rating to filter",
-                    "type": "number"
-                },
-                {
-                    "in": "query",
-                    "name": "isSerial",
-                    "description": "Anime isSerial to filter",
-                    "type": "boolean"
                 }
             ],
             "responses": {
