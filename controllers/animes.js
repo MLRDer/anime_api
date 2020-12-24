@@ -5,10 +5,16 @@ const errors = require("../constants/errors");
 require("dotenv/config");
 
 exports.getAll = catchAsync(async (req, res, next) => {
-    const animes = await Anime.find()
-        .sort({ createdAt: -1 })
+    let query = {};
+    const { quality, year, categories, rating, isSerial } = req.query;
 
-        .lean();
+    quality && (query.quality = quality);
+    year && (query.year = year);
+    categories && (query.categories = { $in: categories.split(",") });
+    rating && (query.rating = { $gte: rating });
+    isSerial && (query.isSerial = isSerial);
+
+    const animes = await Anime.find(query).sort({ createdAt: -1 }).lean();
 
     res.status(200).json({
         success: true,
@@ -30,20 +36,11 @@ exports.get = catchAsync(async (req, res, next) => {
 });
 
 exports.create = catchAsync(async (req, res, next) => {
-    let query = {};
-    const { quality, year, categories, rating, isSerial } = req.query;
+    const anime = await Anime.create(req.body);
 
-    quality && (query.quality = quality);
-    year && (query.year = year);
-    categories && (query.categories = { $in: categories.split(",") });
-    rating && (query.rating = { $gte: rating });
-    isSerial && (query.isSerial = isSerial);
-
-    const animes = await Anime.find(query).lean();
-
-    res.status(200).json({
+    res.status(201).json({
         success: true,
-        data: animes,
+        data: anime,
     });
 });
 

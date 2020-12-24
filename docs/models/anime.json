@@ -40,6 +40,10 @@
                 "type": "boolean",
                 "default": true
             },
+            "isCard": {
+                "type": "boolean",
+                "default": false
+            },
             "categories": {
                 "type": "array",
                 "items": {
