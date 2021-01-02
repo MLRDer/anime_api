@@ -1,4 +1,5 @@
 const Anime = require("../models/Anime");
+const Collection = require("../models/Collection");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const errors = require("../constants/errors");
@@ -6,8 +7,9 @@ require("dotenv/config");
 
 exports.getAll = catchAsync(async (req, res, next) => {
     let query = {};
-    const { quality, year, categories, rating, isSerial } = req.query;
+    const { quality, year, categories, rating, isSerial, type } = req.query;
 
+    type && (query.type = type);
     quality && (query.quality = quality);
     year && (query.year = year);
     categories && (query.categories = { $in: categories.split(",") });
@@ -50,9 +52,11 @@ exports.card = catchAsync(async (req, res, next) => {
         .limit(3)
         .lean();
 
+    const collections = await Collection.find().populate("media").lean();
+
     res.status(200).json({
         success: true,
-        data: card,
+        data: { card, collections },
     });
 });
 

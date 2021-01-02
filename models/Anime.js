@@ -13,6 +13,11 @@ const animeSchema = new Schema({
         type: Number,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+        enum: ["movie", "anime"],
+    },
     image: {
         type: String,
         required: true,
@@ -68,6 +73,11 @@ const animeSchema = new Schema({
     },
 });
 
-animeSchema.index({ title: "text", originalTitle: "text", categories: "text" });
+animeSchema.index({
+    title: "text",
+    originalTitle: "text",
+    categories: "text",
+    type: "text",
+});
 
 module.exports = mongoose.model("Animes", animeSchema);

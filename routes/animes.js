@@ -2,7 +2,7 @@ const router = require("express").Router();
 const anime = require("../controllers/animes");
 
 router.get("/search", anime.search);
-router.get("/card", anime.card);
+router.get("/home", anime.card);
 
 router.get("/", anime.getAll);
 router.get("/:id", anime.get);

@@ -12,6 +12,10 @@
                 "type": "number",
                 "required": true
             },
+            "type": {
+                "type": "string",
+                "required": true
+            },
             "image": {
                 "type": "string",
                 "required": true
@@ -62,6 +66,10 @@
             },
             "year": {
                 "type": "number"
+            },
+            "type": {
+                "type": "string",
+                "required": true
             },
             "image": {
                 "type": "string"

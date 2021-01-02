@@ -1,0 +1,40 @@
+{
+    "CollectionCreate": {
+        "properties": {
+            "title": {
+                "type": "string",
+                "required": true
+            },
+            "media": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "CollectionUpdate": {
+        "properties": {
+            "title": {
+                "type": "string",
+                "required": true
+            },
+            "media": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "PushMedia": {
+        "properties": {
+            "media": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

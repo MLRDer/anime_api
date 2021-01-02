@@ -2,5 +2,9 @@
     {
         "name": "Animes",
         "description": "Anime endpoints."
+    },
+    {
+        "name": "Collections",
+        "description": "Collection endpoints."
     }
 ]
