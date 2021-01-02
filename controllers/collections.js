@@ -54,7 +54,7 @@ exports.push = catchAsync(async (req, res, next) => {
         req.params.id,
         {
             $push: {
-                media: {
+                data: {
                     $each: req.body.media,
                 },
             },

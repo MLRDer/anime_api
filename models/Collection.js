@@ -6,7 +6,7 @@ const collectionSchema = new Schema({
         type: String,
         required: true,
     },
-    media: [
+    data: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Animes",
