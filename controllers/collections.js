@@ -26,7 +26,7 @@ exports.get = catchAsync(async (req, res, next) => {
 });
 
 exports.create = catchAsync(async (req, res, next) => {
-    const collection = await Collection.create(req.body).lean();
+    const collection = await Collection.create(req.body);
 
     res.status(201).json({
         success: true,
