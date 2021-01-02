@@ -52,7 +52,7 @@ exports.card = catchAsync(async (req, res, next) => {
         .limit(3)
         .lean();
 
-    const collections = await Collection.find().populate("media").lean();
+    const collections = await Collection.find().populate("data").lean();
 
     res.status(200).json({
         success: true,
