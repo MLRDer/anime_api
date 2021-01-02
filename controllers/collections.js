@@ -4,7 +4,7 @@ const AppError = require("../utils/appError");
 const errors = require("../constants/errors");
 
 exports.getAll = catchAsync(async (req, res, next) => {
-    const collections = await Collection.find().populate("media").lean();
+    const collections = await Collection.find().populate("data").lean();
 
     res.status(200).json({
         success: true,
@@ -14,7 +14,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
 
 exports.get = catchAsync(async (req, res, next) => {
     const collection = await Collection.findById(req.params.id)
-        .populate("media")
+        .populate("data")
         .lean();
 
     if (!collection) return next(new AppError(404, errors.NOT_FOUND));
