@@ -89,7 +89,7 @@ exports.delete = catchAsync(async (req, res, next) => {
 
 exports.getEpisodes = catchAsync(async (req, res, next) => {
     const anime = await Anime.findById(req.params.id)
-        .select("title episodes")
+        .select("+episodes")
         .lean();
 
     if (!anime) {
