@@ -6,5 +6,9 @@
     {
         "name": "Collections",
         "description": "Collection endpoints."
+    },
+    {
+        "name": "Errors",
+        "description": "Error endpoints"
     }
 ]

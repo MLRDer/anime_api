@@ -1,0 +1,40 @@
+{
+    "ErrorCreate": {
+        "properties": {
+            "movieId": {
+                "type": "string",
+                "required": true
+            },
+            "episodeId": {
+                "type": "string",
+                "required": true
+            },
+            "sourceId": {
+                "type": "string",
+                "required": true
+            },
+            "error": {
+                "type": "object"
+            }
+        }
+    },
+    "ErrorUpdate": {
+        "properties": {
+            "movieId": {
+                "type": "string",
+                "required": true
+            },
+            "episodeId": {
+                "type": "string",
+                "required": true
+            },
+            "sourceId": {
+                "type": "string",
+                "required": true
+            },
+            "error": {
+                "type": "object"
+            }
+        }
+    }
+}
