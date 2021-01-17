@@ -1,20 +1,29 @@
-const Anime = require("../models/Anime");
-const Collection = require("../models/Collection");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
-const errors = require("../constants/errors");
-require("dotenv/config");
+const Anime = require('../models/Anime');
+const Collection = require('../models/Collection');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const errors = require('../constants/errors');
+require('dotenv/config');
 
 exports.getAll = catchAsync(async (req, res, next) => {
-    let query = {};
-    const { quality, year, categories, rating, isSerial, type } = req.query;
+    let query = { isActive: true };
+    const {
+        quality,
+        year,
+        categories,
+        rating,
+        isSerial,
+        type,
+        isActive,
+    } = req.query;
 
     type && (query.type = type);
     quality && (query.quality = quality);
     year && (query.year = year);
-    categories && (query.categories = { $in: categories.split(",") });
+    categories && (query.categories = { $in: categories.split(',') });
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
+    isActive && (query.isActive = isActive);
 
     const animes = await Anime.find(query).sort({ createdAt: -1 }).lean();
 
@@ -47,12 +56,12 @@ exports.create = catchAsync(async (req, res, next) => {
 });
 
 exports.card = catchAsync(async (req, res, next) => {
-    const card = await Anime.find({ isCard: true })
+    const card = await Anime.find({ isCard: true, isActive: true })
         .sort({ createdAt: -1 })
         .limit(3)
         .lean();
 
-    const collections = await Collection.find().populate("data").lean();
+    const collections = await Collection.find().populate('data').lean();
 
     res.status(200).json({
         success: true,
@@ -89,7 +98,7 @@ exports.delete = catchAsync(async (req, res, next) => {
 
 exports.getEpisodes = catchAsync(async (req, res, next) => {
     const anime = await Anime.findById(req.params.id)
-        .select("+episodes")
+        .select('+episodes')
         .lean();
 
     if (!anime) {
@@ -111,7 +120,7 @@ exports.addEpisode = catchAsync(async (req, res, next) => {
             },
         },
         { new: true }
-    ).select("episodes");
+    ).select('episodes');
 
     res.status(200).json({
         success: true,
@@ -128,7 +137,7 @@ exports.deleteEpisode = catchAsync(async (req, res, next) => {
             },
         },
         { new: true }
-    ).select("episodes");
+    ).select('episodes');
 
     res.status(200).json({
         success: true,
@@ -146,25 +155,26 @@ exports.search = catchAsync(async (req, res, next) => {
         },
         {
             score: {
-                $meta: "textScore",
+                $meta: 'textScore',
             },
         }
     )
-        .sort({ score: { $meta: "textScore" } })
+        .sort({ score: { $meta: 'textScore' } })
         .lean();
 
     res.status(200).json(search);
 });
 
 exports.filter = catchAsync(async (req, res, next) => {
-    let query = {};
-    const { quality, year, categories, rating, isSerial } = req.query;
+    let query = { isActive: true };
+    const { quality, year, categories, rating, isSerial, isActive } = req.query;
 
     quality && (query.quality = quality);
     year && (query.year = year);
-    categories && (query.categories = { $in: categories.split(",") });
+    categories && (query.categories = { $in: categories.split(',') });
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
+    isActive && (query.isActive = isActive);
 
     const animes = await Anime.find(query).lean();
     res.status(200).json({
