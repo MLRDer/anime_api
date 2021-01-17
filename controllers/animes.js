@@ -61,7 +61,12 @@ exports.card = catchAsync(async (req, res, next) => {
         .limit(3)
         .lean();
 
-    const collections = await Collection.find().populate('data').lean();
+    const collections = await Collection.find()
+        .populate({
+            path: 'data',
+            match: { isActive: true },
+        })
+        .lean();
 
     res.status(200).json({
         success: true,
