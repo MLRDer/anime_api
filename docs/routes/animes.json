@@ -2,7 +2,9 @@
     "/api/animes/": {
         "get": {
             "description": "Get animes by filter",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "parameters": [
                 {
                     "in": "query",
@@ -39,6 +41,12 @@
                     "name": "isSerial",
                     "description": "Anime isSerial to filter",
                     "type": "boolean"
+                },
+                {
+                    "in": "query",
+                    "name": "isActive",
+                    "description": "Anime isActive to filter",
+                    "type": "boolean"
                 }
             ],
             "responses": {
@@ -49,7 +57,9 @@
         },
         "post": {
             "description": "Create anime",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "parameters": [
                 {
                     "in": "body",
@@ -70,7 +80,9 @@
     "/api/animes/home": {
         "get": {
             "description": "Get card stack animes and collections",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "responses": {
                 "200": {
                     "description": "OK"
@@ -81,7 +93,9 @@
     "/api/animes/{id}": {
         "get": {
             "description": "Get anime by ID",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "parameters": [
                 {
                     "in": "path",
@@ -99,7 +113,9 @@
         },
         "patch": {
             "description": "Update anime",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "parameters": [
                 {
                     "in": "path",
@@ -125,7 +141,9 @@
         },
         "delete": {
             "description": "Delete anime",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "parameters": [
                 {
                     "in": "path",
@@ -145,7 +163,9 @@
     "/api/animes/{id}/episodes": {
         "get": {
             "description": "Get anime episodes by ID",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "parameters": [
                 {
                     "in": "path",
@@ -163,7 +183,9 @@
         },
         "post": {
             "description": "Add episode to anime",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "parameters": [
                 {
                     "in": "path",
@@ -191,7 +213,9 @@
     "/api/animes/{id}/episodes/{episodeId}": {
         "delete": {
             "description": "Delete episode from anime",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "parameters": [
                 {
                     "in": "path",
@@ -218,7 +242,9 @@
     "/api/animes/search": {
         "get": {
             "description": "Get animes by search",
-            "tags": ["Animes"],
+            "tags": [
+                "Animes"
+            ],
             "parameters": [
                 {
                     "in": "query",

@@ -37,10 +37,18 @@
                 "type": "array",
                 "items": {
                     "type": "number",
-                    "enum": [480, 720, 1080]
+                    "enum": [
+                        480,
+                        720,
+                        1080
+                    ]
                 }
             },
             "isSerial": {
+                "type": "boolean",
+                "default": true
+            },
+            "isActive": {
                 "type": "boolean",
                 "default": true
             },
@@ -89,7 +97,11 @@
                 "type": "array",
                 "items": {
                     "type": "number",
-                    "enum": [480, 720, 1080]
+                    "enum": [
+                        480,
+                        720,
+                        1080
+                    ]
                 }
             },
             "isSerial": {
