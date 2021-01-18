@@ -10,5 +10,9 @@
     {
         "name": "Errors",
         "description": "Error endpoints"
+    },
+    {
+        "name": "Categories",
+        "description": "Category endpoints"
     }
 ]

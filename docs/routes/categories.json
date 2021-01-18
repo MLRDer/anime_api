@@ -1,0 +1,97 @@
+{
+    "/api/categories/": {
+        "get": {
+            "description": "Get all categories",
+            "tags": ["Categories"],
+
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "post": {
+            "description": "Create category",
+            "tags": ["Categories"],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/CategoryCreate"
+                    }
+                }
+            ],
+            "responses": {
+                "201": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/categories/{id}": {
+        "get": {
+            "description": "Get category by ID",
+            "tags": ["Categories"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Category ID",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "patch": {
+            "description": "Update category",
+            "tags": ["Categories"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Category ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/CategoryUpdate"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "delete": {
+            "description": "Delete category",
+            "tags": ["Categories"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Category ID",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "204": {
+                    "description": "OK"
+                }
+            }
+        }
+    }
+}

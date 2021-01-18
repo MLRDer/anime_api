@@ -16,7 +16,7 @@ const animeSchema = new Schema({
     type: {
         type: String,
         required: true,
-        enum: ['movie', 'anime'],
+        enum: ['movie', 'anime', 'cartoon'],
     },
     image: {
         type: String,
@@ -37,7 +37,7 @@ const animeSchema = new Schema({
     },
     quality: {
         type: [Number],
-        enum: [480, 720, 1080],
+        enum: [240, 360, 480, 720, 1080],
     },
     isSerial: {
         type: Boolean,

@@ -1,0 +1,18 @@
+{
+    "CategoryCreate": {
+        "properties": {
+            "name": {
+                "type": "string",
+                "required": true
+            }
+        }
+    },
+    "CategoryUpdate": {
+        "properties": {
+            "name": {
+                "type": "string",
+                "required": true
+            }
+        }
+    }
+}

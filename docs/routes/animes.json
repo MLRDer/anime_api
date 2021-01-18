@@ -9,7 +9,7 @@
                 {
                     "in": "query",
                     "name": "type",
-                    "description": "type === 'movie' || 'anime'",
+                    "description": "type === 'movie' || 'anime' || cartoon",
                     "type": "string"
                 },
                 {
