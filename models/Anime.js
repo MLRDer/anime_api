@@ -6,6 +6,9 @@ const animeSchema = new Schema({
         type: String,
         required: true,
     },
+    hdrezka: {
+        type: Number
+    },
     originalTitle: {
         type: String,
     },

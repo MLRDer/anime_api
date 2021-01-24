@@ -15,14 +15,14 @@ const paths = {
     ...animeRoutes,
     ...collectionRoutes,
     ...errorRoutes,
-    ...categoryRoutes
+    ...categoryRoutes,
 };
 
 const definitions = {
     ...animeModels,
     ...collectionModels,
     ...errorModels,
-    ...categoryModels
+    ...categoryModels,
 };
 
 module.exports = {

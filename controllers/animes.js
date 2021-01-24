@@ -1,9 +1,11 @@
-const Anime = require('../models/Anime');
-const Collection = require('../models/Collection');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
-const errors = require('../constants/errors');
-require('dotenv/config');
+const Anime = require("../models/Anime");
+const Collection = require("../models/Collection");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const FormData = require("form-data");
+const errors = require("../constants/errors");
+const axios = require("axios");
+require("dotenv/config");
 
 exports.getAll = catchAsync(async (req, res, next) => {
     let query = { isActive: true };
@@ -20,7 +22,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
     type && (query.type = type);
     quality && (query.quality = quality);
     year && (query.year = year);
-    categories && (query.categories = { $in: categories.split(',') });
+    categories && (query.categories = { $in: categories.split(",") });
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
     isActive && (query.isActive = isActive);
@@ -55,6 +57,80 @@ exports.create = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.movieCreate = catchAsync(async (req, res, next) => {
+    const body = new FormData();
+    body.append("q", req.body.search);
+
+    var config = {
+        method: "post",
+        url: "https://rezka.ag/engine/ajax/search.php",
+        headers: {
+            ...body.getHeaders(),
+        },
+        data: body,
+    };
+
+    const data = await axios(config);
+
+    let str = data.data;
+
+    // extract movie id from html
+    str = str.slice(str.search("http"));
+    str = str.slice(0, str.search(">") - 1);
+    const id = str.slice(str.lastIndexOf("/") + 1, str.search("-"));
+    //console.log(id);
+
+    res.status(201).json({
+        success: true,
+        data: id,
+    });
+});
+
+exports.getSources = catchAsync(async (req, res, next) => {
+    const body = new FormData();
+    body.append("translator_id", 238);
+    body.append("id", req.body.id);
+
+    if (req.body.isSerial) {
+        body.append("action", "get_stream");
+        body.append("season", req.body.season);
+        body.append("episode", req.body.episode);
+    } else {
+        body.append("action", "get_movie");
+    }
+
+    console.log(body);
+
+    var config = {
+        method: "post",
+        url: `https://rezka.ag/ajax/get_cdn_series/?t=${new Date().getTime()}`,
+        headers: {
+            ...body.getHeaders(),
+        },
+        data: body,
+    };
+
+    const data = await axios(config);
+
+    let str = data.data.url;
+    str = str.split(",");
+    let sources = [];
+    for (let item of str) {
+        let source = {
+            quality: item
+                .match(/\[+(.*?)\]+/g)[0]
+                .replace(/\[+(.*?)\]+/g, "$1"),
+            url: item.slice(item.search("or ") + 3),
+        };
+        sources.push(source);
+    }
+
+    res.status(201).json({
+        success: true,
+        data: sources,
+    });
+});
+
 exports.card = catchAsync(async (req, res, next) => {
     const card = await Anime.find({ isCard: true, isActive: true })
         .sort({ createdAt: -1 })
@@ -63,7 +139,7 @@ exports.card = catchAsync(async (req, res, next) => {
 
     const collections = await Collection.find()
         .populate({
-            path: 'data',
+            path: "data",
             match: { isActive: true },
         })
         .lean();
@@ -103,7 +179,7 @@ exports.delete = catchAsync(async (req, res, next) => {
 
 exports.getEpisodes = catchAsync(async (req, res, next) => {
     const anime = await Anime.findById(req.params.id)
-        .select('+episodes')
+        .select("+episodes")
         .lean();
 
     if (!anime) {
@@ -125,7 +201,7 @@ exports.addEpisode = catchAsync(async (req, res, next) => {
             },
         },
         { new: true }
-    ).select('episodes');
+    ).select("episodes");
 
     res.status(200).json({
         success: true,
@@ -142,7 +218,7 @@ exports.deleteEpisode = catchAsync(async (req, res, next) => {
             },
         },
         { new: true }
-    ).select('episodes');
+    ).select("episodes");
 
     res.status(200).json({
         success: true,
@@ -160,11 +236,11 @@ exports.search = catchAsync(async (req, res, next) => {
         },
         {
             score: {
-                $meta: 'textScore',
+                $meta: "textScore",
             },
         }
     )
-        .sort({ score: { $meta: 'textScore' } })
+        .sort({ score: { $meta: "textScore" } })
         .lean();
 
     res.status(200).json(search);
@@ -176,7 +252,7 @@ exports.filter = catchAsync(async (req, res, next) => {
 
     quality && (query.quality = quality);
     year && (query.year = year);
-    categories && (query.categories = { $in: categories.split(',') });
+    categories && (query.categories = { $in: categories.split(",") });
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
     isActive && (query.isActive = isActive);

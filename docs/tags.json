@@ -1,5 +1,9 @@
 [
     {
+        "name": "HDRezka",
+        "description": "HDRezka endpoinds"
+    },
+    {
         "name": "Animes",
         "description": "Anime endpoints."
     },
