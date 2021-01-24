@@ -219,6 +219,39 @@
                     "description": "OK"
                 }
             }
+        },
+        "patch": {
+            "description": "Update episode of anime/movie",
+            "tags": ["Animes"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Anime ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "path",
+                    "name": "episodeId",
+                    "description": "Episode ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/AddEpisode"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
         }
     },
     "/api/animes/search": {

@@ -14,6 +14,7 @@ router.delete("/:id", anime.delete);
 
 router.get("/:id/episodes", anime.getEpisodes);
 router.post("/:id/episodes", anime.addEpisode);
+router.patch("/:id/episodes/:episodeId", anime.updateEpisode);
 router.delete("/:id/episodes/:episodeId", anime.deleteEpisode);
 
 module.exports = router;

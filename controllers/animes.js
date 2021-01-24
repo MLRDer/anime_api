@@ -168,6 +168,26 @@ exports.update = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.updateEpisode = catchAsync(async (req, res, next) => {
+    const anime = await Anime.findOneAndUpdate(
+        {
+            _id: req.params.id,
+            "episodes._id": req.params.episodeId,
+        },
+        {
+            $set: {
+                "episodes.$": req.body,
+            },
+        },
+        { new: true }
+    );
+
+    res.status(200).json({
+        success: true,
+        data: anime,
+    });
+});
+
 exports.delete = catchAsync(async (req, res, next) => {
     await Anime.findByIdAndDelete(req.params.id);
 
