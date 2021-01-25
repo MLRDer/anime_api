@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const animeSchema = new Schema({
@@ -7,7 +7,10 @@ const animeSchema = new Schema({
         required: true,
     },
     hdrezka: {
-        type: Number
+        type: Number,
+    },
+    tmdbID: {
+        type: Number,
     },
     originalTitle: {
         type: String,
@@ -19,7 +22,7 @@ const animeSchema = new Schema({
     type: {
         type: String,
         required: true,
-        enum: ['movie', 'anime', 'cartoon'],
+        enum: ["movie", "anime", "cartoon"],
     },
     image: {
         type: String,
@@ -81,10 +84,10 @@ const animeSchema = new Schema({
 });
 
 animeSchema.index({
-    title: 'text',
-    originalTitle: 'text',
-    categories: 'text',
-    type: 'text',
+    title: "text",
+    originalTitle: "text",
+    categories: "text",
+    type: "text",
 });
 
-module.exports = mongoose.model('Animes', animeSchema);
+module.exports = mongoose.model("Animes", animeSchema);
