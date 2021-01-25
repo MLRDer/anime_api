@@ -45,6 +45,18 @@
                     "name": "isActive",
                     "description": "Anime isActive to filter",
                     "type": "boolean"
+                },
+                {
+                    "in": "query",
+                    "name": "page",
+                    "description": "Pagination page to filter (default 1)",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "limit",
+                    "description": "Page limit for pagination (default 20)",
+                    "type": "number"
                 }
             ],
             "responses": {

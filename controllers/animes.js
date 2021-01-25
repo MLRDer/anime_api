@@ -9,7 +9,7 @@ require("dotenv/config");
 
 exports.getAll = catchAsync(async (req, res, next) => {
     let query = { isActive: true };
-    const {
+    let {
         quality,
         year,
         categories,
@@ -17,6 +17,8 @@ exports.getAll = catchAsync(async (req, res, next) => {
         isSerial,
         type,
         isActive,
+        page,
+        limit,
     } = req.query;
 
     type && (query.type = type);
@@ -26,8 +28,15 @@ exports.getAll = catchAsync(async (req, res, next) => {
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
     isActive && (query.isActive = isActive);
+    page = page * 1 || 1;
+    limit = limit * 1 || 20;
+    const skip = (page - 1) * limit;
 
-    const animes = await Anime.find(query).sort({ createdAt: -1 }).lean();
+    const animes = await Anime.find(query)
+        .select("_id title poster rating")
+        .skip(skip)
+        .limit(limit)
+        .lean();
 
     res.status(200).json({
         success: true,
