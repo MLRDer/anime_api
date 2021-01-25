@@ -39,9 +39,12 @@ exports.getAll = catchAsync(async (req, res, next) => {
         .sort({ createdAt: -1 })
         .lean();
 
+    const count = await Anime.find({ isActive: true, type: type }).count();
+
     res.status(200).json({
         success: true,
         data: animes,
+        count: count,
     });
 });
 
