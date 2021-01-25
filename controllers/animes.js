@@ -33,9 +33,10 @@ exports.getAll = catchAsync(async (req, res, next) => {
     const skip = (page - 1) * limit;
 
     const animes = await Anime.find(query)
-        .select("_id title poster rating")
+        .select("_id title poster rating createdAt")
         .skip(skip)
         .limit(limit)
+        .sort({ createdAt: -1 })
         .lean();
 
     res.status(200).json({
