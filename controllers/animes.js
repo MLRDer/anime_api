@@ -7,6 +7,9 @@ const errors = require("../constants/errors");
 const axios = require("axios");
 require("dotenv/config");
 
+const IMDBScraper = require("imdb-scraper");
+const Imdb = new IMDBScraper({ requestDefaults: {}, maxRetries: 3 });
+
 exports.getAll = catchAsync(async (req, res, next) => {
     let query = { isActive: true };
     let {
@@ -143,6 +146,22 @@ exports.getSources = catchAsync(async (req, res, next) => {
         success: true,
         data: sources,
     });
+});
+
+exports.imdb = catchAsync(async (req, res, next) => {
+    Imdb.title(req.query.id)
+        .then((data) => {
+            res.status(200).json({
+                success: true,
+                data: data,
+            });
+        })
+        .catch((err) => {
+            res.status(400).json({
+                success: false,
+                data: null,
+            });
+        });
 });
 
 exports.card = catchAsync(async (req, res, next) => {

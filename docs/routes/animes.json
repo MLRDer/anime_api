@@ -325,5 +325,25 @@
                 }
             }
         }
+    },
+    "/api/animes/imdb": {
+        "get": {
+            "description": "Get movie info from imdb",
+            "tags": ["HDRezka"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "id",
+                    "description": "IMDb id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
     }
 }
