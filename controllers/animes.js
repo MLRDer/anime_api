@@ -39,7 +39,8 @@ exports.getAll = catchAsync(async (req, res, next) => {
         .sort({ createdAt: -1 })
         .lean();
 
-    const count = await Anime.find({ isActive: true, type: type }).count();
+    const cquery = type ? { isActive: true, type: type } : { isActive: true };
+    const count = await Anime.find().count(cquery);
 
     res.status(200).json({
         success: true,
