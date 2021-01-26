@@ -96,10 +96,11 @@ exports.movieCreate = catchAsync(async (req, res, next) => {
     str = str.slice(0, str.search(">") - 1);
     const id = str.slice(str.lastIndexOf("/") + 1, str.search("-"));
     //console.log(id);
+    const isAvailable = await hdrezkaTest(id);
 
     res.status(201).json({
         success: true,
-        data: id,
+        data: isAvailable ? id : null,
     });
 });
 
@@ -209,15 +210,26 @@ exports.updateEpisode = catchAsync(async (req, res, next) => {
         },
         {
             $set: {
-                "episodes.$": req.body,
+                "episodes.$.name": req.body.name,
+                "episodes.$.season": req.body.season,
+                "episodes.$.episode": req.body.episode,
+                "episodes.$.sources": req.body.sources,
             },
         },
-        { new: true }
+        { new: true, select: "episodes" }
     );
+    console.log(anime);
+    let episode = {};
+    for (let i = 0; i < anime.episodes.length; i++) {
+        if (anime.episodes[i]._id == req.params.episodeId) {
+            episode = anime.episodes[i];
+            break;
+        }
+    }
 
     res.status(200).json({
         success: true,
-        data: anime,
+        data: episode,
     });
 });
 
@@ -231,9 +243,7 @@ exports.delete = catchAsync(async (req, res, next) => {
 });
 
 exports.getEpisodes = catchAsync(async (req, res, next) => {
-    const anime = await Anime.findById(req.params.id)
-        .select("+episodes")
-        .lean();
+    const anime = await Anime.findById(req.params.id).select("episodes").lean();
 
     if (!anime) {
         return next(new AppError(404, errors.NOT_FOUND));
@@ -316,3 +326,41 @@ exports.filter = catchAsync(async (req, res, next) => {
         data: animes,
     });
 });
+
+const hdrezkaTest = async (id) => {
+    const body = new FormData();
+    const body1 = new FormData();
+    body.append("translator_id", 238);
+    body1.append("translator_id", 238);
+    body.append("id", id);
+    body1.append("id", id);
+
+    body1.append("action", "get_stream");
+    body1.append("season", 1);
+    body1.append("episode", 1);
+
+    body.append("action", "get_movie");
+
+    var config = {
+        method: "post",
+        url: `https://rezka.ag/ajax/get_cdn_series/?t=${new Date().getTime()}`,
+        headers: {
+            ...body.getHeaders(),
+        },
+        data: body,
+    };
+
+    var config1 = {
+        method: "post",
+        url: `https://rezka.ag/ajax/get_cdn_series/?t=${new Date().getTime()}`,
+        headers: {
+            ...body1.getHeaders(),
+        },
+        data: body1,
+    };
+
+    const data = await axios(config);
+    const data1 = await axios(config1);
+
+    return data.data.success || data1.data.success;
+};
