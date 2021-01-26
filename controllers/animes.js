@@ -243,7 +243,9 @@ exports.delete = catchAsync(async (req, res, next) => {
 });
 
 exports.getEpisodes = catchAsync(async (req, res, next) => {
-    const anime = await Anime.findById(req.params.id).select("episodes").lean();
+    const anime = await Anime.findById(req.params.id)
+        .select("+episodes")
+        .lean();
 
     if (!anime) {
         return next(new AppError(404, errors.NOT_FOUND));
