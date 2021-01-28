@@ -182,6 +182,7 @@ exports.card = catchAsync(async (req, res, next) => {
             path: "data",
             match: { isActive: true },
         })
+        .sort({ createdAt: -1 })
         .lean();
 
     res.status(200).json({
