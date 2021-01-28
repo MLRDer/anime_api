@@ -104,7 +104,7 @@
                 {
                     "in": "path",
                     "name": "id",
-                    "description": "Anime ID",
+                    "description": "Movie's mongodb ID or tmdb ID",
                     "required": true,
                     "type": "string"
                 }

@@ -53,7 +53,13 @@ exports.getAll = catchAsync(async (req, res, next) => {
 });
 
 exports.get = catchAsync(async (req, res, next) => {
-    const anime = await Anime.findById(req.params.id).lean();
+    let anime = {};
+
+    if (req.params.id.length > 10) {
+        anime = await Anime.findById(req.params.id).lean();
+    } else {
+        anime = await Anime.findOne({ tmdbID: req.params.id }).lean();
+    }
 
     if (!anime) {
         return next(new AppError(404, errors.NOT_FOUND));
