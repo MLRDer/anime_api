@@ -1,14 +1,15 @@
-const Collection = require('../models/Collection');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
-const errors = require('../constants/errors');
+const Collection = require("../models/Collection");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const errors = require("../constants/errors");
 
 exports.getAll = catchAsync(async (req, res, next) => {
     const collections = await Collection.find()
         .populate({
-            path: 'data',
+            path: "data",
             match: { isActive: true },
         })
+        .sort({ createdAt: -1 })
         .lean();
 
     res.status(200).json({
@@ -20,7 +21,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
 exports.get = catchAsync(async (req, res, next) => {
     const collection = await Collection.findById(req.params.id)
         .populate({
-            path: 'data',
+            path: "data",
             match: { isActive: true },
         })
         .lean();

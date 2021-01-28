@@ -12,6 +12,10 @@ const collectionSchema = new Schema({
             ref: "Animes",
         },
     ],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 
 collectionSchema.index({
