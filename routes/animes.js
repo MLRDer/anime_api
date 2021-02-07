@@ -6,6 +6,7 @@ router.get("/home", anime.card);
 router.post("/hdsearch", anime.movieCreate);
 router.post("/hdsources", anime.getSources);
 router.get("/imdb", anime.imdb);
+router.get("/hdMultiple", anime.hdMultiple);
 
 router.get("/", anime.getAll);
 router.get("/:id", anime.get);

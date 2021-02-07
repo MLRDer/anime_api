@@ -345,5 +345,25 @@
                 }
             }
         }
+    },
+    "/api/animes/hdMultiple": {
+        "get": {
+            "description": "Get movie translations from hdrezka",
+            "tags": ["HDRezka"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "title",
+                    "description": "Movie title",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
     }
 }
