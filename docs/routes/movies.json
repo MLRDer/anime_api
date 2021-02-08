@@ -1,0 +1,172 @@
+{
+    "/api/movies/": {
+        "get": {
+            "description": "Get all movies",
+            "tags": ["Movies"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "type",
+                    "description": "type === 'movie' || 'anime' || cartoon",
+                    "type": "string"
+                },
+                {
+                    "in": "query",
+                    "name": "quality",
+                    "description": "Anime quality to filter",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "year",
+                    "description": "Anime year to filter",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "categories",
+                    "description": "Anime categories to filter (separated with ,)",
+                    "type": "string"
+                },
+                {
+                    "in": "query",
+                    "name": "rating",
+                    "description": "Anime rating to filter",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "isSerial",
+                    "description": "Anime isSerial to filter",
+                    "type": "boolean"
+                },
+                {
+                    "in": "query",
+                    "name": "isActive",
+                    "description": "Anime isActive to filter",
+                    "type": "boolean"
+                },
+                {
+                    "in": "query",
+                    "name": "page",
+                    "description": "Pagination page to filter (default 1)",
+                    "type": "number"
+                },
+                {
+                    "in": "query",
+                    "name": "limit",
+                    "description": "Page limit for pagination (default 20)",
+                    "type": "number"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "post": {
+            "description": "Create a movie",
+            "tags": ["Movies"],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/MovieCreate"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/movies/{id}": {
+        "get": {
+            "description": "Get movie by ID",
+            "tags": ["Movies"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Movie id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "patch": {
+            "description": "Update movie",
+            "tags": ["Movies"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Movie ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/MovieCreate"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "delete": {
+            "description": "Delete movie",
+            "tags": ["Movies"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Movie ID",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "204": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/movies/search": {
+        "get": {
+            "description": "Get movies by searching",
+            "tags": ["Movies"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "search",
+                    "description": "Movie title (en or ru doesn't matter) to search",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    }
+}

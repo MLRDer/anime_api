@@ -1,0 +1,124 @@
+{
+    "MovieCreate": {
+        "properties": {
+            "en": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "poster": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "translator_id": {
+                        "type": "number",
+                        "required": true
+                    },
+                    "trailer": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ru": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "description": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "image": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "poster": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "translator_id": {
+                        "type": "number",
+                        "required": true
+                    },
+                    "trailer": {
+                        "type": "string"
+                    }
+                }
+            },
+            "originalTitle": {
+                "type": "string"
+            },
+            "hdrezka": {
+                "type": "number",
+                "required": true
+            },
+            "tmdbID": {
+                "type": "number",
+                "required": true
+            },
+            "year": {
+                "type": "number",
+                "required": true
+            },
+            "type": {
+                "type": "string",
+                "required": true
+            },
+            "actors": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "rating": {
+                "type": "number",
+                "required": true,
+                "min": 0,
+                "max": 10
+            },
+            "quality": {
+                "type": "array",
+                "items": {
+                    "type": "number",
+                    "enum": [480, 720, 1080]
+                }
+            },
+            "isSerial": {
+                "type": "boolean",
+                "default": true
+            },
+            "isActive": {
+                "type": "boolean",
+                "default": true
+            },
+            "isCard": {
+                "type": "boolean",
+                "default": false
+            }
+        }
+    }
+}

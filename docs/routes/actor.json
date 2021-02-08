@@ -1,0 +1,137 @@
+{
+    "/api/actors/": {
+        "get": {
+            "description": "Get all actors",
+            "tags": ["Actors"],
+
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "post": {
+            "description": "Create an actor",
+            "tags": ["Actors"],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/ActorCreate"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/actors/{id}": {
+        "get": {
+            "description": "Get actor by ID",
+            "tags": ["Actors"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Actor id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "patch": {
+            "description": "Update actor",
+            "tags": ["Actors"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Actor ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/ActorCreate"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "delete": {
+            "description": "Delete actor",
+            "tags": ["Actors"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Actor ID",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "204": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/actors/movies/{id}": {
+        "get": {
+            "description": "Get movies actor starred by actor ID",
+            "tags": ["Actors"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Actor id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/actors/search": {
+        "get": {
+            "description": "Get actors by searching",
+            "tags": ["Actors"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "search",
+                    "description": "Actor name to search",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    }
+}

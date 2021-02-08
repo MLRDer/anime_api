@@ -65,3 +65,26 @@ exports.findMovies = catchAsync(async (req, res, next) => {
         data: movies,
     });
 });
+
+exports.search = catchAsync(async (req, res, next) => {
+    const search = await Actor.find(
+        {
+            isActive: true,
+            $text: {
+                $search: req.query.search,
+            },
+        },
+        {
+            score: {
+                $meta: "textScore",
+            },
+        }
+    )
+        .sort({ score: { $meta: "textScore" } })
+        .lean();
+
+    res.status(200).json({
+        success: true,
+        data: search,
+    });
+});

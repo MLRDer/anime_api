@@ -1,0 +1,29 @@
+{
+    "ActorCreate": {
+        "properties": {
+            "name": {
+                "type": "string",
+                "required": true
+            },
+            "bio": {
+                "type": "object",
+                "properties": {
+                    "en": {
+                        "type": "string"
+                    },
+                    "ru": {
+                        "type": "string"
+                    }
+                }
+            },
+            "image": {
+                "type": "string",
+                "required": true
+            },
+            "dateOfBirth": {
+                "type": "string",
+                "required": true
+            }
+        }
+    }
+}

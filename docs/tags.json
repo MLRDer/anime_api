@@ -18,5 +18,13 @@
     {
         "name": "Categories",
         "description": "Category endpoints"
+    },
+    {
+        "name": "Actors",
+        "description": "Actor endpoints"
+    },
+    {
+        "name": "Movies",
+        "description": "Movie endpoints"
     }
 ]

@@ -28,6 +28,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
     limit = limit * 1 || 20;
     const skip = (page - 1) * limit;
 
+    // should be corrected
     const movies = await Movie.find(query)
         .select("_id title poster rating createdAt")
         .skip(skip)
@@ -46,7 +47,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
 });
 
 exports.get = catchAsync(async (req, res, next) => {
-    const movie = await Movie.findById(req.params.id).lean();
+    const movie = await Movie.findById(req.params.id).populate("actors").lean();
 
     if (!movie) return next(new AppError(404, errors.NOT_FOUND));
 
@@ -85,5 +86,28 @@ exports.delete = catchAsync(async (req, res, next) => {
     res.status(204).json({
         success: true,
         data: null,
+    });
+});
+
+exports.search = catchAsync(async (req, res, next) => {
+    const search = await Movie.find(
+        {
+            isActive: true,
+            $text: {
+                $search: req.query.search,
+            },
+        },
+        {
+            score: {
+                $meta: "textScore",
+            },
+        }
+    )
+        .sort({ score: { $meta: "textScore" } })
+        .lean();
+
+    res.status(200).json({
+        success: true,
+        data: search,
     });
 });

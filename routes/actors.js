@@ -3,6 +3,7 @@ const actor = require("../controllers/actors");
 
 router.get("/", actor.getAll);
 router.get("/movies/:id", actor.findMovies);
+router.get("/search", actor.search);
 router.get("/:id", actor.get);
 router.post("/", actor.create);
 router.patch("/:id", actor.update);

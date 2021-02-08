@@ -300,7 +300,6 @@ exports.deleteEpisode = catchAsync(async (req, res, next) => {
 });
 
 exports.search = catchAsync(async (req, res, next) => {
-    console.log(req.query);
     const search = await Anime.find(
         {
             isActive: true,
@@ -317,7 +316,10 @@ exports.search = catchAsync(async (req, res, next) => {
         .sort({ score: { $meta: "textScore" } })
         .lean();
 
-    res.status(200).json(search);
+    res.status(200).json({
+        success: true,
+        data: search,
+    });
 });
 
 exports.filter = catchAsync(async (req, res, next) => {

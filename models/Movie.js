@@ -124,9 +124,11 @@ const movieSchema = new Schema({
 });
 
 movieSchema.index({
-    title: "text",
+    "en.title": "text",
+    "ru.title": "text",
     originalTitle: "text",
-    categories: "text",
+    "en.categories": "text",
+    "ru.categories": "text",
     type: "text",
 });
 
