@@ -83,13 +83,13 @@ exports.getID = catchAsync(async (req, res, next) => {
 
 exports.getSources = catchAsync(async (req, res, next) => {
     const body = new FormData();
-    body.append('translator_id', req.query.translator_id);
-    body.append('id', req.query.id);
+    body.append('translator_id', req.body.translator_id);
+    body.append('id', req.body.id);
 
-    if (req.query.isSerial) {
+    if (req.body.isSerial) {
         body.append('action', 'get_stream');
-        body.append('season', req.query.season);
-        body.append('episode', req.query.episode);
+        body.append('season', req.body.season);
+        body.append('episode', req.body.episode);
     } else {
         body.append('action', 'get_movie');
     }
