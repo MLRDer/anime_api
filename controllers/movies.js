@@ -17,6 +17,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
         isActive,
         page,
         limit,
+        sortBy,
     } = req.query;
 
     type && (query.type = type);
@@ -30,15 +31,20 @@ exports.getAll = catchAsync(async (req, res, next) => {
     limit = limit * 1 || 20;
     const skip = (page - 1) * limit;
 
+    let sort = { createdAt: -1 };
+    sortBy && (sort = { [sortBy]: -1 });
+
+    console.log(sort);
+
     const movies = await Movie.find(query)
         .select('_id ru.title en.title ru.poster en.poster rating createdAt')
         .skip(skip)
         .limit(limit)
-        .sort({ createdAt: -1 })
+        .sort(sort)
         .lean();
 
     const cquery = type ? { isActive: true, type: type } : { isActive: true };
-    const count = await Movie.countDocuments(cquery);
+    const count = await Movie.countDocuments(query);
 
     res.status(200).json({
         success: true,

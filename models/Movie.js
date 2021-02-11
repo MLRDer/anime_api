@@ -111,14 +111,24 @@ const movieSchema = new Schema({
                 },
                 season: Number,
                 episode: Number,
-                sources: [
-                    {
-                        url: {
-                            type: String,
+                sources: {
+                    en: [
+                        {
+                            url: {
+                                type: String,
+                            },
+                            quality: Number,
                         },
-                        quality: Number,
-                    },
-                ],
+                    ],
+                    ru: [
+                        {
+                            url: {
+                                type: String,
+                            },
+                            quality: Number,
+                        },
+                    ],
+                },
                 image: String,
             },
         ],
