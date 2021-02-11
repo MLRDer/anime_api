@@ -1,7 +1,8 @@
-const Actor = require("../models/Actor");
-const Movie = require("../models/Movie");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
+const Actor = require('../models/Actor');
+const Movie = require('../models/Movie');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const errors = require('../constants/errors');
 
 exports.getAll = catchAsync(async (req, res, next) => {
     let query = { isActive: true };
@@ -15,22 +16,24 @@ exports.getAll = catchAsync(async (req, res, next) => {
         isActive,
         page,
         limit,
+        tmdbId,
     } = req.query;
 
     type && (query.type = type);
     quality && (query.quality = quality);
     year && (query.year = year);
-    categories && (query.categories = { $in: categories.split(",") });
+    categories && (query.categories = { $in: categories.split(',') });
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
     isActive && (query.isActive = isActive);
+    tmdbId && (query.tmdbId = tmdbId);
     page = page * 1 || 1;
     limit = limit * 1 || 20;
     const skip = (page - 1) * limit;
 
     // should be corrected
     const movies = await Movie.find(query)
-        .select("_id title poster rating createdAt")
+        .select('_id ru.title en.title ru.poster en.poster rating createdAt')
         .skip(skip)
         .limit(limit)
         .sort({ createdAt: -1 })
@@ -47,7 +50,24 @@ exports.getAll = catchAsync(async (req, res, next) => {
 });
 
 exports.get = catchAsync(async (req, res, next) => {
-    const movie = await Movie.findById(req.params.id).populate("actors").lean();
+    const movie = await Movie.findById(req.params.id)
+        .populate('actors')
+        .populate('categories')
+        .lean();
+
+    if (!movie) return next(new AppError(404, errors.NOT_FOUND));
+
+    res.status(200).json({
+        success: true,
+        data: movie,
+    });
+});
+
+exports.getByTmdbId = catchAsync(async (req, res, next) => {
+    const movie = await Movie.findOne({ tmdbID: req.params.id })
+        .populate('actors')
+        .populate('categories')
+        .lean();
 
     if (!movie) return next(new AppError(404, errors.NOT_FOUND));
 
@@ -70,7 +90,10 @@ exports.update = catchAsync(async (req, res, next) => {
     const movie = await Movie.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
-    }).lean();
+    })
+        .populate('actors')
+        .populate('categories')
+        .lean();
 
     if (!movie) return next(new AppError(404, errors.NOT_FOUND));
 
@@ -81,7 +104,7 @@ exports.update = catchAsync(async (req, res, next) => {
 });
 
 exports.delete = catchAsync(async (req, res, next) => {
-    await Movie.findById(req.params.id);
+    await Movie.findByIdAndDelete(req.params.id);
 
     res.status(204).json({
         success: true,
@@ -99,11 +122,11 @@ exports.search = catchAsync(async (req, res, next) => {
         },
         {
             score: {
-                $meta: "textScore",
+                $meta: 'textScore',
             },
         }
     )
-        .sort({ score: { $meta: "textScore" } })
+        .sort({ score: { $meta: 'textScore' } })
         .lean();
 
     res.status(200).json({

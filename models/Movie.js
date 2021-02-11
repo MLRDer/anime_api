@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const movieSchema = new Schema({
@@ -19,7 +19,6 @@ const movieSchema = new Schema({
             type: String,
             required: true,
         },
-        categories: [String],
         translator_id: {
             type: Number,
             default: 238,
@@ -43,7 +42,6 @@ const movieSchema = new Schema({
             type: String,
             required: true,
         },
-        categories: [String],
         translator_id: {
             type: Number,
             default: 238,
@@ -59,14 +57,14 @@ const movieSchema = new Schema({
     originalTitle: {
         type: String,
     },
-    year: {
-        type: Number,
+    releaseDate: {
+        type: Date,
         required: true,
     },
     type: {
         type: String,
         required: true,
-        enum: ["movie", "anime", "cartoon"],
+        enum: ['movie', 'anime', 'cartoon'],
     },
     rating: {
         type: Number,
@@ -89,7 +87,13 @@ const movieSchema = new Schema({
     actors: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Actors",
+            ref: 'Actors',
+        },
+    ],
+    categories: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Categories',
         },
     ],
     episodes: {
@@ -124,12 +128,12 @@ const movieSchema = new Schema({
 });
 
 movieSchema.index({
-    "en.title": "text",
-    "ru.title": "text",
-    originalTitle: "text",
-    "en.categories": "text",
-    "ru.categories": "text",
-    type: "text",
+    'en.title': 'text',
+    'ru.title': 'text',
+    originalTitle: 'text',
+    'en.categories': 'text',
+    'ru.categories': 'text',
+    type: 'text',
 });
 
-module.exports = mongoose.model("Movies", movieSchema);
+module.exports = mongoose.model('Movies', movieSchema);
