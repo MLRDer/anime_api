@@ -157,6 +157,8 @@ exports.card = catchAsync(async (req, res, next) => {
 exports.getEpisodes = catchAsync(async (req, res, next) => {
     const movie = await Movie.findById(req.params.id)
         .select('+episodes')
+        .populate('actors')
+        .populate('categories')
         .lean();
 
     if (!movie) {
