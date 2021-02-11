@@ -12,6 +12,9 @@ const categorySchema = new Schema({
         required: true,
         unique: true,
     },
+    image: {
+        type: String,
+    },
     tmdbId: Number,
 });
 

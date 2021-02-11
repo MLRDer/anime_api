@@ -1,10 +1,9 @@
 {
-    "/api/v2/actors/": {
+    "/api/v2/collections/": {
         "get": {
-            "description": "Get all actors",
-            "tags": [
-                "Actors"
-            ],
+            "description": "Get all v2 collections",
+            "tags": ["Collection2"],
+
             "responses": {
                 "200": {
                     "description": "OK"
@@ -12,38 +11,34 @@
             }
         },
         "post": {
-            "description": "Create an actor",
-            "tags": [
-                "Actors"
-            ],
+            "description": "Create v2 collection",
+            "tags": ["Collection2"],
             "parameters": [
                 {
                     "in": "body",
                     "name": "Body",
                     "required": true,
                     "schema": {
-                        "$ref": "#/definitions/ActorCreate"
+                        "$ref": "#/definitions/Collection2Create"
                     }
                 }
             ],
             "responses": {
-                "200": {
+                "201": {
                     "description": "OK"
                 }
             }
         }
     },
-    "/api/v2/actors/{id}": {
+    "/api/v2/collections/{id}": {
         "get": {
-            "description": "Get actor by ID",
-            "tags": [
-                "Actors"
-            ],
+            "description": "Get v2 collection by ID",
+            "tags": ["Collection2"],
             "parameters": [
                 {
                     "in": "path",
                     "name": "id",
-                    "description": "Actor id",
+                    "description": "V2 Collection ID",
                     "required": true,
                     "type": "string"
                 }
@@ -55,15 +50,13 @@
             }
         },
         "patch": {
-            "description": "Update actor",
-            "tags": [
-                "Actors"
-            ],
+            "description": "Update v2 collection",
+            "tags": ["Collection2"],
             "parameters": [
                 {
                     "in": "path",
                     "name": "id",
-                    "description": "Actor ID",
+                    "description": "V2 Collection ID",
                     "required": true,
                     "type": "string"
                 },
@@ -72,7 +65,7 @@
                     "name": "Body",
                     "required": true,
                     "schema": {
-                        "$ref": "#/definitions/ActorCreate"
+                        "$ref": "#/definitions/Collection2Update"
                     }
                 }
             ],
@@ -83,15 +76,13 @@
             }
         },
         "delete": {
-            "description": "Delete actor",
-            "tags": [
-                "Actors"
-            ],
+            "description": "Delete v2 collection",
+            "tags": ["Collection2"],
             "parameters": [
                 {
                     "in": "path",
                     "name": "id",
-                    "description": "Actor ID",
+                    "description": "V2 Collection ID",
                     "required": true,
                     "type": "string"
                 }
@@ -103,41 +94,25 @@
             }
         }
     },
-    "/api/v2/actors/movies/{id}": {
-        "get": {
-            "description": "Get movies actor starred by actor ID",
-            "tags": [
-                "Actors"
-            ],
+    "/api/v2/collections/{id}/media/": {
+        "post": {
+            "description": "Add media to v2 collection",
+            "tags": ["Collection2"],
             "parameters": [
                 {
                     "in": "path",
                     "name": "id",
-                    "description": "Actor id",
+                    "description": "V2 Collection ID",
                     "required": true,
                     "type": "string"
-                }
-            ],
-            "responses": {
-                "200": {
-                    "description": "OK"
-                }
-            }
-        }
-    },
-    "/api/v2/actors/search": {
-        "get": {
-            "description": "Get actors by searching",
-            "tags": [
-                "Actors"
-            ],
-            "parameters": [
+                },
                 {
-                    "in": "query",
-                    "name": "search",
-                    "description": "Actor name to search",
+                    "in": "body",
+                    "name": "Body",
                     "required": true,
-                    "type": "string"
+                    "schema": {
+                        "$ref": "#/definitions/PushMedia2"
+                    }
                 }
             ],
             "responses": {

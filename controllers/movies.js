@@ -1,5 +1,6 @@
 const Actor = require('../models/Actor');
 const Movie = require('../models/Movie');
+const Collection2 = require('../models/Collection2');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const errors = require('../constants/errors');
@@ -16,7 +17,6 @@ exports.getAll = catchAsync(async (req, res, next) => {
         isActive,
         page,
         limit,
-        tmdbId,
     } = req.query;
 
     type && (query.type = type);
@@ -26,12 +26,10 @@ exports.getAll = catchAsync(async (req, res, next) => {
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
     isActive && (query.isActive = isActive);
-    tmdbId && (query.tmdbId = tmdbId);
     page = page * 1 || 1;
     limit = limit * 1 || 20;
     const skip = (page - 1) * limit;
 
-    // should be corrected
     const movies = await Movie.find(query)
         .select('_id ru.title en.title ru.poster en.poster rating createdAt')
         .skip(skip)
@@ -50,26 +48,23 @@ exports.getAll = catchAsync(async (req, res, next) => {
 });
 
 exports.get = catchAsync(async (req, res, next) => {
-    const movie = await Movie.findById(req.params.id)
-        .populate('actors')
-        .populate('categories')
-        .lean();
+    let movie = {};
 
-    if (!movie) return next(new AppError(404, errors.NOT_FOUND));
+    if (req.params.id.length > 10) {
+        movie = await Movie.findById(req.params.id)
+            .populate('actors')
+            .populate('categories')
+            .lean();
+    } else {
+        movie = await Movie.findOne({ tmdbId: req.params.id })
+            .populate('actors')
+            .populate('categories')
+            .lean();
+    }
 
-    res.status(200).json({
-        success: true,
-        data: movie,
-    });
-});
-
-exports.getByTmdbId = catchAsync(async (req, res, next) => {
-    const movie = await Movie.findOne({ tmdbID: req.params.id })
-        .populate('actors')
-        .populate('categories')
-        .lean();
-
-    if (!movie) return next(new AppError(404, errors.NOT_FOUND));
+    if (!movie) {
+        return next(new AppError(404, errors.NOT_FOUND));
+    }
 
     res.status(200).json({
         success: true,
@@ -112,6 +107,7 @@ exports.delete = catchAsync(async (req, res, next) => {
     });
 });
 
+// full text search
 exports.search = catchAsync(async (req, res, next) => {
     const search = await Movie.find(
         {
@@ -132,5 +128,109 @@ exports.search = catchAsync(async (req, res, next) => {
     res.status(200).json({
         success: true,
         data: search,
+    });
+});
+
+// extra routes
+exports.card = catchAsync(async (req, res, next) => {
+    const card = await Movie.find({ isCard: true, isActive: true })
+        .select('en.title ru.title image poster')
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .lean();
+
+    const collections = await Collection2.find()
+        .populate({
+            path: 'movies',
+            match: { isActive: true },
+            select: 'en.title ru.title rating image poster',
+        })
+        .sort({ createdAt: -1 })
+        .lean();
+
+    res.status(200).json({
+        success: true,
+        data: { card, collections },
+    });
+});
+
+exports.getEpisodes = catchAsync(async (req, res, next) => {
+    const movie = await Movie.findById(req.params.id)
+        .select('+episodes')
+        .lean();
+
+    if (!movie) {
+        return next(new AppError(404, errors.NOT_FOUND));
+    }
+
+    res.status(200).json({
+        success: true,
+        data: movie,
+    });
+});
+
+exports.addEpisode = catchAsync(async (req, res, next) => {
+    const movie = await Movie.findByIdAndUpdate(
+        req.params.id,
+        {
+            $push: {
+                episodes: req.body,
+            },
+        },
+        { new: true }
+    ).select('episodes');
+
+    res.status(200).json({
+        success: true,
+        data: movie,
+    });
+});
+
+exports.updateEpisode = catchAsync(async (req, res, next) => {
+    const movie = await Movie.findOneAndUpdate(
+        {
+            _id: req.params.id,
+            'episodes._id': req.params.episodeId,
+        },
+        {
+            $set: {
+                'episodes.$.name.en': req.body.name.en,
+                'episodes.$.name.ru': req.body.name.ru,
+                'episodes.$.season': req.body.season,
+                'episodes.$.episode': req.body.episode,
+                'episodes.$.sources': req.body.sources,
+            },
+        },
+        { new: true, select: 'episodes' }
+    );
+
+    let episode = {};
+    for (let i = 0; i < movie.episodes.length; i++) {
+        if (movie.episodes[i]._id == req.params.episodeId) {
+            episode = movie.episodes[i];
+            break;
+        }
+    }
+
+    res.status(200).json({
+        success: true,
+        data: episode,
+    });
+});
+
+exports.deleteEpisode = catchAsync(async (req, res, next) => {
+    const movie = await Movie.findByIdAndUpdate(
+        req.params.id,
+        {
+            $pull: {
+                episodes: { _id: req.params.episodeId },
+            },
+        },
+        { new: true }
+    ).select('episodes');
+
+    res.status(200).json({
+        success: true,
+        data: movie,
     });
 });

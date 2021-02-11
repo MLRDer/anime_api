@@ -1,30 +1,30 @@
 {
-    "CategoryCreate": {
+    "getIDfromHDRezka": {
         "properties": {
-            "name_en": {
+            "search": {
                 "type": "string",
                 "required": true
-            },
-            "name_ru": {
-                "type": "string",
-                "required": true
-            },
-            "image": {
-                "type": "string"
             }
         }
     },
-    "CategoryUpdate": {
+    "getSourcesfromHDRezka": {
         "properties": {
-            "name_en": {
+            "id": {
                 "type": "string",
                 "required": true
             },
-            "name_ru": {
+            "translator_id": {
                 "type": "string",
                 "required": true
             },
-            "image": {
+            "isSerial": {
+                "type": "boolean",
+                "default": false
+            },
+            "season": {
+                "type": "string"
+            },
+            "episode": {
                 "type": "string"
             }
         }

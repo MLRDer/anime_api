@@ -1,8 +1,10 @@
 {
-    "/api/movies/": {
+    "/api/v2/movies/": {
         "get": {
             "description": "Get all movies",
-            "tags": ["Movies"],
+            "tags": [
+                "Movies"
+            ],
             "parameters": [
                 {
                     "in": "query",
@@ -67,7 +69,9 @@
         },
         "post": {
             "description": "Create a movie",
-            "tags": ["Movies"],
+            "tags": [
+                "Movies"
+            ],
             "parameters": [
                 {
                     "in": "body",
@@ -85,10 +89,12 @@
             }
         }
     },
-    "/api/movies/{id}": {
+    "/api/v2/movies/{id}": {
         "get": {
             "description": "Get movie by ID",
-            "tags": ["Movies"],
+            "tags": [
+                "Movies"
+            ],
             "parameters": [
                 {
                     "in": "path",
@@ -106,7 +112,9 @@
         },
         "patch": {
             "description": "Update movie",
-            "tags": ["Movies"],
+            "tags": [
+                "Movies"
+            ],
             "parameters": [
                 {
                     "in": "path",
@@ -132,7 +140,9 @@
         },
         "delete": {
             "description": "Delete movie",
-            "tags": ["Movies"],
+            "tags": [
+                "Movies"
+            ],
             "parameters": [
                 {
                     "in": "path",
@@ -149,10 +159,126 @@
             }
         }
     },
-    "/api/movies/search": {
+    "/api/v2/movies/{id}/episodes": {
+        "get": {
+            "description": "Get movie episodes by ID",
+            "tags": [
+                "Movies"
+            ],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Movie ID",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "post": {
+            "description": "Add episode to movie",
+            "tags": [
+                "Movies"
+            ],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Movie ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/MovieAddEpisode"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/v2/movies/{id}/episodes/{episodeId}": {
+        "delete": {
+            "description": "Delete episode from movie",
+            "tags": [
+                "Movies"
+            ],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Movie ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "path",
+                    "name": "episodeId",
+                    "description": "Episode ID",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "204": {
+                    "description": "OK"
+                }
+            }
+        },
+        "patch": {
+            "description": "Update episode of movie",
+            "tags": [
+                "Movies"
+            ],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Movie ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "path",
+                    "name": "episodeId",
+                    "description": "Episode ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/MovieAddEpisode"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/v2/movies/search": {
         "get": {
             "description": "Get movies by searching",
-            "tags": ["Movies"],
+            "tags": [
+                "Movies"
+            ],
             "parameters": [
                 {
                     "in": "query",

@@ -44,16 +44,22 @@ const movieSchema = new Schema({
         },
         translator_id: {
             type: Number,
-            default: 238,
+            default: 56,
         },
         trailer: String,
     },
     hdrezka: {
         type: Number,
     },
-    tmdbID: {
+    tmdbId: {
         type: Number,
     },
+    categories: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Categories',
+        },
+    ],
     originalTitle: {
         type: String,
     },
@@ -113,6 +119,7 @@ const movieSchema = new Schema({
                         quality: Number,
                     },
                 ],
+                image: String,
             },
         ],
         select: false,

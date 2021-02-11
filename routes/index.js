@@ -1,10 +1,12 @@
 const animeRouter = require('./animes');
 const actorRouter = require('./actors');
 const movieRouter = require('./movies');
-const collectionRouter = require('./collections');
 const uploadRouter = require('./uploads');
+const collectionRouter = require('./collections');
+const collection2Router = require('./collection2');
 const errorRouter = require('./errors');
 const categoryRouter = require('./categories');
+const hdrezkaRouter = require('./hdrezka');
 
 module.exports = (app) => {
     app.use('/api/animes', animeRouter);
@@ -12,8 +14,9 @@ module.exports = (app) => {
     app.use('/api/collections', collectionRouter);
     app.use('/api/errors', errorRouter);
 
-    app.use('/api/v2/actors', actorRouter);
     app.use('/api/v2/movies', movieRouter);
-    app.use('/api/v2/animes', animeRouter);
-    app.use('/api/v2/categories/', categoryRouter);
+    app.use('/api/v2/categories', categoryRouter);
+    app.use('/api/v2/actors', actorRouter);
+    app.use('/api/v2/collections', collection2Router);
+    app.use('/api/v2/hdrezka', hdrezkaRouter);
 };
