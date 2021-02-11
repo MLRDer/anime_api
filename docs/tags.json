@@ -1,5 +1,21 @@
 [
     {
+        "name": "Actors",
+        "description": "Actor endpoints"
+    },
+    {
+        "name": "Movies",
+        "description": "Movie endpoints"
+    },
+    {
+        "name": "Collection2",
+        "description": "V2 Collection endpoints"
+    },
+    {
+        "name": "HDRezka2",
+        "description": "V2 HDRezka endpoints"
+    },
+    {
         "name": "HDRezka",
         "description": "HDRezka endpoinds"
     },
@@ -18,13 +34,5 @@
     {
         "name": "Categories",
         "description": "Category endpoints"
-    },
-    {
-        "name": "Actors",
-        "description": "Actor endpoints"
-    },
-    {
-        "name": "Movies",
-        "description": "Movie endpoints"
     }
 ]

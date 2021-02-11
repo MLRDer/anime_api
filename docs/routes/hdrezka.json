@@ -1,0 +1,84 @@
+{
+    "/api/v2/hdrezka/id": {
+        "post": {
+            "description": "Search movie from HDRezka and get its id",
+            "tags": ["HDRezka2"],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/getIDfromHDRezka"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/v2/hdrezka/sources": {
+        "post": {
+            "description": "Get movie sources from HDRezka",
+            "tags": ["HDRezka2"],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/getSourcesfromHDRezka"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/v2/hdrezka/imdb": {
+        "get": {
+            "description": "Get movie info from imdb",
+            "tags": ["HDRezka2"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "id",
+                    "description": "IMDb id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/v2/hdrezka/available": {
+        "get": {
+            "description": "Get movie translation code and studio names from hdrezka",
+            "tags": ["HDRezka2"],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "title",
+                    "description": "Movie title",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    }
+}

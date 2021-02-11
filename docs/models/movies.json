@@ -120,5 +120,41 @@
                 "default": false
             }
         }
+    },
+    "MovieAddEpisode": {
+        "properties": {
+            "name": {
+                "type": "object",
+                "properties": {
+                    "en": {
+                        "type": "string"
+                    },
+                    "ru": {
+                        "type": "string"
+                    }
+                }
+            },
+            "season": {
+                "type": "number"
+            },
+            "episode": {
+                "type": "number"
+            },
+            "sources": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "quality": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        }
     }
 }

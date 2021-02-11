@@ -19,7 +19,6 @@ const movieSchema = new Schema({
             type: String,
             required: true,
         },
-        categories: [String],
         translator_id: {
             type: Number,
             default: 238,
@@ -43,7 +42,6 @@ const movieSchema = new Schema({
             type: String,
             required: true,
         },
-        categories: [String],
         translator_id: {
             type: Number,
             default: 238,
@@ -56,6 +54,12 @@ const movieSchema = new Schema({
     tmdbID: {
         type: Number,
     },
+    categories: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Categories",
+        },
+    ],
     originalTitle: {
         type: String,
     },
