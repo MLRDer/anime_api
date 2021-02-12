@@ -1,14 +1,15 @@
-const Collection2 = require("../models/Collection2");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
-const errors = require("../constants/errors");
+const Collection2 = require('../models/Collection2');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
+const errors = require('../constants/errors');
 
 exports.getAll = catchAsync(async (req, res, next) => {
     const collection2s = await Collection2.find()
         .populate({
-            path: "movies",
+            path: 'movies',
             match: { isActive: true },
-            select: "en.title ru.title rating image poster",
+            select:
+                '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
         })
         .sort({ createdAt: -1 })
         .lean();
@@ -22,9 +23,9 @@ exports.getAll = catchAsync(async (req, res, next) => {
 exports.get = catchAsync(async (req, res, next) => {
     const collection2 = await Collection2.findById(req.params.id)
         .populate({
-            path: "movies",
+            path: 'movies',
             match: { isActive: true },
-            select: "en.title ru.title rating image poster",
+            select: 'en.title ru.title rating image poster',
         })
         .lean();
 
@@ -37,7 +38,12 @@ exports.get = catchAsync(async (req, res, next) => {
 });
 
 exports.create = catchAsync(async (req, res, next) => {
-    const collection2 = await Collection2.create(req.body);
+    const collection2 = await Collection2.create(req.body).populate({
+        path: 'movies',
+        match: { isActive: true },
+        select:
+            '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
+    });
 
     res.status(201).json({
         success: true,
@@ -50,7 +56,14 @@ exports.update = catchAsync(async (req, res, next) => {
         req.params.id,
         req.body,
         { new: true, runValidators: true }
-    ).lean();
+    )
+        .populate({
+            path: 'movies',
+            match: { isActive: true },
+            select:
+                '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
+        })
+        .lean();
 
     if (!collection2) return next(new AppError(404, errors.NOT_FOUND));
 
