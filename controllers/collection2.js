@@ -38,12 +38,15 @@ exports.get = catchAsync(async (req, res, next) => {
 });
 
 exports.create = catchAsync(async (req, res, next) => {
-    const collection2 = await Collection2.create(req.body).populate({
-        path: 'movies',
-        match: { isActive: true },
-        select:
-            '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
-    });
+    const coll2 = await Collection2.create(req.body);
+
+    const collection2 = await Collection2.findById(coll2._id)
+        .populate({
+            path: 'movies',
+            match: { isActive: true },
+            select: 'en.title ru.title rating image poster',
+        })
+        .lean();
 
     res.status(201).json({
         success: true,
