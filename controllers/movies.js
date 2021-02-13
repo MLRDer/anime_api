@@ -242,3 +242,43 @@ exports.deleteEpisode = catchAsync(async (req, res, next) => {
         data: movie,
     });
 });
+
+exports.addTMDBActors = catchAsync(async (req, res, next) => {
+    const actors = [];
+
+    if (req.body && req.body.length) {
+        for (let i in req.body) {
+            const { tmdbId, character, name, image } = req.body[i];
+
+            const foundActor = await Actor.findOne({ tmdbId }).lean();
+
+            if (foundActor) actors.push(foundActor._id);
+            else {
+                const newAactor = await Actor.create({
+                    tmdbId,
+                    character,
+                    name,
+                    image,
+                });
+                actors.push(newAactor._id);
+            }
+        }
+    }
+
+    const movie = await Movie.findByIdAndUpdate(
+        req.params.id,
+        {
+            actors,
+        },
+        {
+            new: true,
+            runValidators: true,
+        }
+    ).lean();
+
+    if (!movie) return next(new AppError(404, errors.NOT_FOUND));
+
+    res.status(200).json({
+        success: true,
+    });
+});

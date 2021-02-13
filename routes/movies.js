@@ -15,4 +15,6 @@ router.post('/:id/episodes', movie.addEpisode);
 router.patch('/:id/episodes/:episodeId', movie.updateEpisode);
 router.delete('/:id/episodes/:episodeId', movie.deleteEpisode);
 
+router.post('/:id/actors/tmdb', movie.addTMDBActors);
+
 module.exports = router;

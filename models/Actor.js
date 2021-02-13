@@ -1,10 +1,13 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const actorSchema = new Schema({
     name: {
         type: String,
         required: true,
+    },
+    character: {
+        type: String,
     },
     bio: {
         en: String,
@@ -17,12 +20,13 @@ const actorSchema = new Schema({
     dateOfBirth: {
         type: String,
     },
+    tmdbId: Number,
     createdAt: {
         type: Date,
         default: Date.now,
     },
 });
 
-actorSchema.index({ name: "text" });
+actorSchema.index({ name: 'text' });
 
-module.exports = mongoose.model("Actors", actorSchema);
+module.exports = mongoose.model('Actors', actorSchema);
