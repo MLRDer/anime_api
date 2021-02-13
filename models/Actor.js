@@ -6,9 +6,6 @@ const actorSchema = new Schema({
         type: String,
         required: true,
     },
-    character: {
-        type: String,
-    },
     bio: {
         en: String,
         ru: String,
