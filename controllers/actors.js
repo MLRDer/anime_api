@@ -1,7 +1,7 @@
-const Actor = require("../models/Actor");
-const Movie = require("../models/Movie");
-const catchAsync = require("../utils/catchAsync");
-const AppError = require("../utils/appError");
+const Actor = require('../models/Actor');
+const Movie = require('../models/Movie');
+const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 exports.getAll = catchAsync(async (req, res, next) => {
     const actors = await Actor.find().lean();
@@ -55,14 +55,21 @@ exports.delete = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.findMovies = catchAsync(async (req, res, next) => {
+exports.movies = catchAsync(async (req, res, next) => {
+    const actor = await Actor.findById(req.params.id).lean();
+
+    if (!actor) return next(new AppError(404, errors.NOT_FOUND));
+
     const movies = await Movie.find({ actors: { $in: req.params.id } })
-        .select("en.title ru.title en.poster ru.poster rating")
+        .select('_id ru.title en.title ru.poster en.poster rating createdAt')
         .lean();
 
     res.status(200).json({
         success: true,
-        data: movies,
+        data: {
+            ...actor,
+            movies,
+        },
     });
 });
 
@@ -76,11 +83,11 @@ exports.search = catchAsync(async (req, res, next) => {
         },
         {
             score: {
-                $meta: "textScore",
+                $meta: 'textScore',
             },
         }
     )
-        .sort({ score: { $meta: "textScore" } })
+        .sort({ score: { $meta: 'textScore' } })
         .lean();
 
     res.status(200).json({
