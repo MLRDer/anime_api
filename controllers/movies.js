@@ -140,7 +140,7 @@ exports.search = catchAsync(async (req, res, next) => {
 // extra routes
 exports.card = catchAsync(async (req, res, next) => {
     const card = await Movie.find({ isCard: true, isActive: true })
-        .select('en.title ru.title image poster')
+        .select('_id en.title ru.title en.image ru.image en.poster ru.poster')
         .sort({ createdAt: -1 })
         .limit(3)
         .lean();
@@ -149,7 +149,8 @@ exports.card = catchAsync(async (req, res, next) => {
         .populate({
             path: 'movies',
             match: { isActive: true },
-            select: 'en.title ru.title rating image poster',
+            select:
+                '_id en.title ru.title en.image ru.image en.poster ru.poster rating',
         })
         .sort({ createdAt: -1 })
         .lean();
