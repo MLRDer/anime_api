@@ -25,7 +25,8 @@ exports.get = catchAsync(async (req, res, next) => {
         .populate({
             path: 'movies',
             match: { isActive: true },
-            select: 'en.title ru.title rating image poster',
+            select:
+                '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
         })
         .lean();
 
@@ -44,7 +45,8 @@ exports.create = catchAsync(async (req, res, next) => {
         .populate({
             path: 'movies',
             match: { isActive: true },
-            select: 'en.title ru.title rating image poster',
+            select:
+                '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
         })
         .lean();
 
