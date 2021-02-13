@@ -76,7 +76,6 @@ exports.movies = catchAsync(async (req, res, next) => {
 exports.search = catchAsync(async (req, res, next) => {
     const search = await Actor.find(
         {
-            isActive: true,
             $text: {
                 $search: req.query.search,
             },

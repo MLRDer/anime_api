@@ -148,8 +148,6 @@ movieSchema.index({
     'en.title': 'text',
     'ru.title': 'text',
     originalTitle: 'text',
-    'en.categories': 'text',
-    'ru.categories': 'text',
     type: 'text',
 });
 

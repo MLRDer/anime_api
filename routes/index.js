@@ -7,6 +7,7 @@ const collection2Router = require('./collection2');
 const errorRouter = require('./errors');
 const categoryRouter = require('./categories');
 const hdrezkaRouter = require('./hdrezka');
+const searchRouter = require('./search');
 
 module.exports = (app) => {
     app.use('/api/animes', animeRouter);
@@ -19,4 +20,5 @@ module.exports = (app) => {
     app.use('/api/v2/actors', actorRouter);
     app.use('/api/v2/collections', collection2Router);
     app.use('/api/v2/hdrezka', hdrezkaRouter);
+    app.use('/api/v2/search', searchRouter);
 };
