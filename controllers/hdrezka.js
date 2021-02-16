@@ -82,7 +82,6 @@ exports.getID = catchAsync(async (req, res, next) => {
 });
 
 exports.getSources = catchAsync(async (req, res, next) => {
-    console.log(req.body);
     const body = new FormData();
     body.append('translator_id', req.body.translator_id);
     body.append('id', req.body.id);
@@ -107,6 +106,7 @@ exports.getSources = catchAsync(async (req, res, next) => {
     const data = await axios(config);
 
     let str = data.data.url;
+
     str = str.split(',');
     let sources = [];
     for (let item of str) {
