@@ -15,11 +15,11 @@ module.exports = (app) => {
     app.use('/api/collections', collectionRouter);
     app.use('/api/errors', errorRouter);
 
-    // app.use('/api/v2', (req, res, next) => {
-    //     res.status(404).json({
-    //         success: false,
-    //     });
-    // });
+    app.use('/api/v2', (req, res, next) => {
+        res.status(404).json({
+            success: false,
+        });
+    });
 
     app.use('/api/v2/movies', movieRouter);
     app.use('/api/v2/categories', categoryRouter);
