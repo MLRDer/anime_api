@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const collectionSchema = new Schema({
@@ -15,9 +15,10 @@ const collectionSchema = new Schema({
     movies: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Movies",
+            ref: 'Movies',
         },
     ],
+    order: Number,
     createdAt: {
         type: Date,
         default: Date.now,
@@ -25,8 +26,8 @@ const collectionSchema = new Schema({
 });
 
 collectionSchema.index({
-    "title.en": "text",
-    "title.ru": "text",
+    'title.en': 'text',
+    'title.ru': 'text',
 });
 
-module.exports = mongoose.model("Collection2s", collectionSchema);
+module.exports = mongoose.model('Collection2s', collectionSchema);

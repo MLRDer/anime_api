@@ -138,6 +138,10 @@ const movieSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    views: {
+        type: Number,
+        default: 0,
+    },
     createdAt: {
         type: Date,
         default: Date.now,

@@ -76,6 +76,12 @@ exports.get = catchAsync(async (req, res, next) => {
         success: true,
         data: movie,
     });
+
+    await Movie.findByIdAndUpdate(
+        req.params.id,
+        { views: movie.views ? movie.views + 1 : 1 },
+        { new: true }
+    );
 });
 
 exports.create = catchAsync(async (req, res, next) => {
