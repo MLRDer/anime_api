@@ -104,7 +104,11 @@
                 "type": "array",
                 "items": {
                     "type": "number",
-                    "enum": [480, 720, 1080]
+                    "enum": [
+                        480,
+                        720,
+                        1080
+                    ]
                 }
             },
             "isSerial": {
@@ -153,6 +157,26 @@
                             "type": "number"
                         }
                     }
+                }
+            }
+        }
+    },
+    "TMDBActors": {
+        "type": "array",
+        "items": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "required": true
+                },
+                "image": {
+                    "type": "string",
+                    "required": true
+                },
+                "tmdbId": {
+                    "type": "number",
+                    "required": true
                 }
             }
         }

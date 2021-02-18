@@ -257,9 +257,9 @@ exports.addTMDBActors = catchAsync(async (req, res, next) => {
         for (let i in req.body) {
             const { tmdbId } = req.body[i];
 
-            const foundActor = await Actor.findOne({ tmdbId }).lean();
+            const found = await Actor.findOne({ tmdbId }).lean();
 
-            if (foundActor) actors.push(foundActor._id);
+            if (found.tmdbId == tmdbId) actors.push(found._id);
             else {
                 const newAactor = await Actor.create(req.body);
                 actors.push(newAactor._id);

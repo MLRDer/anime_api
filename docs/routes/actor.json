@@ -103,7 +103,7 @@
             }
         }
     },
-    "/api/v2/actors/movies/{id}": {
+    "/api/v2/actors/{id}/movies": {
         "get": {
             "description": "Get movies actor starred by actor ID",
             "tags": [

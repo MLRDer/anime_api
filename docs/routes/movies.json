@@ -294,5 +294,35 @@
                 }
             }
         }
+    },
+    "/api/v2/movies/{id}/actors/tmdb": {
+        "post": {
+            "description": "Update movie",
+            "tags": [
+                "Movies"
+            ],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Movie ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/TMDBActors"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
     }
 }
