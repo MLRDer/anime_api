@@ -72,12 +72,10 @@ exports.getID = catchAsync(async (req, res, next) => {
     str = str.slice(str.search('http'));
     str = str.slice(0, str.search('>') - 1);
     const id = str.slice(str.lastIndexOf('/') + 1, str.search('-'));
-    //console.log(id);
-    const isAvailable = await hdrezkaTest(id);
 
     res.status(201).json({
         success: true,
-        data: isAvailable ? id : null,
+        data: id,
     });
 });
 
