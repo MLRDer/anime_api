@@ -34,8 +34,6 @@ exports.getAll = catchAsync(async (req, res, next) => {
     let sort = { createdAt: -1 };
     sortBy && (sort = { [sortBy]: -1 });
 
-    console.log(sort);
-
     const movies = await Movie.find(query)
         .select('_id ru.title en.title ru.poster en.poster rating createdAt')
         .skip(skip)
