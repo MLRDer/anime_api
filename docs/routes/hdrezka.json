@@ -1,16 +1,15 @@
 {
     "/api/v2/hdrezka/id": {
-        "post": {
+        "get": {
             "description": "Search movie from HDRezka and get its id",
-            "tags": ["HDRezka2"],
+            "tags": [
+                "HDRezka2"
+            ],
             "parameters": [
                 {
-                    "in": "body",
-                    "name": "Body",
-                    "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/getIDfromHDRezka"
-                    }
+                    "in": "query",
+                    "name": "search",
+                    "required": true
                 }
             ],
             "responses": {
@@ -23,7 +22,9 @@
     "/api/v2/hdrezka/sources": {
         "post": {
             "description": "Get movie sources from HDRezka",
-            "tags": ["HDRezka2"],
+            "tags": [
+                "HDRezka2"
+            ],
             "parameters": [
                 {
                     "in": "body",
@@ -44,7 +45,9 @@
     "/api/v2/hdrezka/imdb": {
         "get": {
             "description": "Get movie info from imdb",
-            "tags": ["HDRezka2"],
+            "tags": [
+                "HDRezka2"
+            ],
             "parameters": [
                 {
                     "in": "query",
@@ -64,7 +67,9 @@
     "/api/v2/hdrezka/available": {
         "get": {
             "description": "Get movie translation code and studio names from hdrezka",
-            "tags": ["HDRezka2"],
+            "tags": [
+                "HDRezka2"
+            ],
             "parameters": [
                 {
                     "in": "query",

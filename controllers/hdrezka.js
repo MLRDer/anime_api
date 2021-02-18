@@ -13,44 +13,6 @@ const Imdb = new IMDBScraper({ requestDefaults: {}, maxRetries: 3 });
  *  all controllers related to hdrezka and imdb
  */
 
-const hdrezkaTest = async (id) => {
-    const body = new FormData();
-    const body1 = new FormData();
-    body.append('translator_id', 238);
-    body1.append('translator_id', 238);
-    body.append('id', id);
-    body1.append('id', id);
-
-    body1.append('action', 'get_stream');
-    body1.append('season', 1);
-    body1.append('episode', 1);
-
-    body.append('action', 'get_movie');
-
-    var config = {
-        method: 'post',
-        url: `https://rezka.ag/ajax/get_cdn_series/?t=${new Date().getTime()}`,
-        headers: {
-            ...body.getHeaders(),
-        },
-        data: body,
-    };
-
-    var config1 = {
-        method: 'post',
-        url: `https://rezka.ag/ajax/get_cdn_series/?t=${new Date().getTime()}`,
-        headers: {
-            ...body1.getHeaders(),
-        },
-        data: body1,
-    };
-
-    const data = await axios(config);
-    const data1 = await axios(config1);
-
-    return data.data.success || data1.data.success;
-};
-
 exports.getID = catchAsync(async (req, res, next) => {
     const body = new FormData();
     body.append('q', req.query.search);
@@ -73,7 +35,9 @@ exports.getID = catchAsync(async (req, res, next) => {
     str = str.slice(0, str.search('>') - 1);
     const id = str.slice(str.lastIndexOf('/') + 1, str.search('-'));
 
-    res.status(201).json({
+    console.log(id);
+
+    res.status(200).json({
         success: true,
         data: id,
     });
@@ -117,7 +81,7 @@ exports.getSources = catchAsync(async (req, res, next) => {
         sources.push(source);
     }
 
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         data: sources,
     });
