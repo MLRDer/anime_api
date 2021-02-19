@@ -1,9 +1,9 @@
-const Actor = require('../models/Actor');
-const Movie = require('../models/Movie');
-const Collection2 = require('../models/Collection2');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
-const errors = require('../constants/errors');
+const Actor = require("../models/Actor");
+const Movie = require("../models/Movie");
+const Collection2 = require("../models/Collection2");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const errors = require("../constants/errors");
 
 exports.getAll = catchAsync(async (req, res, next) => {
     let query = { isActive: true };
@@ -23,7 +23,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
     type && (query.type = type);
     quality && (query.quality = quality);
     year && (query.year = year);
-    categories && (query.categories = { $in: categories.split(',') });
+    categories && (query.categories = { $in: categories.split(",") });
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
     isActive && (query.isActive = isActive);
@@ -36,7 +36,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
 
     const movies = await Movie.find(query)
         .select(
-            '_id ru.title en.title ru.poster en.poster rating createdAt views'
+            "_id ru.title en.title ru.poster en.poster rating createdAt views"
         )
         .sort(sort)
         .skip(skip)
@@ -57,13 +57,13 @@ exports.get = catchAsync(async (req, res, next) => {
 
     if (req.params.id.length > 10) {
         movie = await Movie.findById(req.params.id)
-            .populate('actors')
-            .populate('categories')
+            .populate("actors")
+            .populate("categories")
             .lean();
     } else {
         movie = await Movie.findOne({ tmdbId: req.params.id })
-            .populate('actors')
-            .populate('categories')
+            .populate("actors")
+            .populate("categories")
             .lean();
     }
 
@@ -75,12 +75,6 @@ exports.get = catchAsync(async (req, res, next) => {
         success: true,
         data: movie,
     });
-
-    await Movie.findByIdAndUpdate(
-        req.params.id,
-        { views: movie.views ? movie.views + 1 : 1 },
-        { new: true }
-    );
 });
 
 exports.create = catchAsync(async (req, res, next) => {
@@ -97,8 +91,8 @@ exports.update = catchAsync(async (req, res, next) => {
         new: true,
         runValidators: true,
     })
-        .populate('actors')
-        .populate('categories')
+        .populate("actors")
+        .populate("categories")
         .lean();
 
     if (!movie) return next(new AppError(404, errors.NOT_FOUND));
@@ -129,11 +123,11 @@ exports.search = catchAsync(async (req, res, next) => {
         },
         {
             score: {
-                $meta: 'textScore',
+                $meta: "textScore",
             },
         }
     )
-        .sort({ score: { $meta: 'textScore' } })
+        .sort({ score: { $meta: "textScore" } })
         .lean();
 
     res.status(200).json({
@@ -146,7 +140,7 @@ exports.search = catchAsync(async (req, res, next) => {
 exports.card = catchAsync(async (req, res, next) => {
     const card = await Movie.find({ isCard: true, isActive: true })
         .select(
-            '_id en.title ru.title en.image ru.image en.poster ru.poster views'
+            "_id en.title ru.title en.image ru.image en.poster ru.poster views"
         )
         .sort({ createdAt: -1 })
         .limit(10)
@@ -154,10 +148,10 @@ exports.card = catchAsync(async (req, res, next) => {
 
     const collections = await Collection2.find()
         .populate({
-            path: 'movies',
+            path: "movies",
             match: { isActive: true },
             select:
-                '_id en.title ru.title en.image ru.image en.poster ru.poster rating',
+                "_id en.title ru.title en.image ru.image en.poster ru.poster rating",
         })
         .sort({ createdAt: -1 })
         .lean();
@@ -169,10 +163,20 @@ exports.card = catchAsync(async (req, res, next) => {
 });
 
 exports.getEpisodes = catchAsync(async (req, res, next) => {
-    const movie = await Movie.findById(req.params.id)
-        .select('+episodes')
-        .populate('actors')
-        .populate('categories')
+    const movie = await Movie.findByIdAndUpdate(
+        req.params.id,
+        {
+            $inc: {
+                views: 1,
+            },
+        },
+        {
+            new: true,
+        }
+    )
+        .select("+episodes")
+        .populate("actors")
+        .populate("categories")
         .lean();
 
     if (!movie) {
@@ -194,7 +198,7 @@ exports.addEpisode = catchAsync(async (req, res, next) => {
             },
         },
         { new: true }
-    ).select('episodes');
+    ).select("episodes");
 
     res.status(200).json({
         success: true,
@@ -206,18 +210,18 @@ exports.updateEpisode = catchAsync(async (req, res, next) => {
     const movie = await Movie.findOneAndUpdate(
         {
             _id: req.params.id,
-            'episodes._id': req.params.episodeId,
+            "episodes._id": req.params.episodeId,
         },
         {
             $set: {
-                'episodes.$.name.en': req.body.name.en,
-                'episodes.$.name.ru': req.body.name.ru,
-                'episodes.$.season': req.body.season,
-                'episodes.$.episode': req.body.episode,
-                'episodes.$.sources': req.body.sources,
+                "episodes.$.name.en": req.body.name.en,
+                "episodes.$.name.ru": req.body.name.ru,
+                "episodes.$.season": req.body.season,
+                "episodes.$.episode": req.body.episode,
+                "episodes.$.sources": req.body.sources,
             },
         },
-        { new: true, select: 'episodes' }
+        { new: true, select: "episodes" }
     );
 
     let episode = {};
@@ -243,7 +247,7 @@ exports.deleteEpisode = catchAsync(async (req, res, next) => {
             },
         },
         { new: true }
-    ).select('episodes');
+    ).select("episodes");
 
     res.status(200).json({
         success: true,
