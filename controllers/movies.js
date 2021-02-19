@@ -35,13 +35,14 @@ exports.getAll = catchAsync(async (req, res, next) => {
     sortBy && (sort = { [sortBy]: -1 });
 
     const movies = await Movie.find(query)
-        .select('_id ru.title en.title ru.poster en.poster rating createdAt')
+        .select(
+            '_id ru.title en.title ru.poster en.poster rating createdAt views'
+        )
+        .sort(sort)
         .skip(skip)
         .limit(limit)
-        .sort(sort)
         .lean();
 
-    const cquery = type ? { isActive: true, type: type } : { isActive: true };
     const count = await Movie.countDocuments(query);
 
     res.status(200).json({
@@ -144,9 +145,11 @@ exports.search = catchAsync(async (req, res, next) => {
 // extra routes
 exports.card = catchAsync(async (req, res, next) => {
     const card = await Movie.find({ isCard: true, isActive: true })
-        .select('_id en.title ru.title en.image ru.image en.poster ru.poster')
+        .select(
+            '_id en.title ru.title en.image ru.image en.poster ru.poster views'
+        )
         .sort({ createdAt: -1 })
-        .limit(3)
+        .limit(10)
         .lean();
 
     const collections = await Collection2.find()
