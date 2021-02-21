@@ -215,6 +215,7 @@ exports.updateEpisode = catchAsync(async (req, res, next) => {
                 'episodes.$.season': req.body.season,
                 'episodes.$.episode': req.body.episode,
                 'episodes.$.sources': req.body.sources,
+                'episodes.$.image': req.body.image,
             },
         },
         { new: true, select: 'episodes' }
