@@ -10,6 +10,7 @@ const indexRouter = require('./routes');
 const app = express();
 
 // Middlewares
+app.enable('trust proxy');
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
