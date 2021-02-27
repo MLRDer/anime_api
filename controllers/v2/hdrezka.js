@@ -80,41 +80,10 @@ exports.getSources = catchAsync(async (req, res, next) => {
         sources.push(source);
     }
 
-    subtitle = subtitle.split(',');
-    let subtitles = [];
-    for (let item of subtitle) {
-        let sub = {
-            language: item
-                .match(/\[+(.*?)\]+/g)[0]
-                .replace(/\[+(.*?)\]+/g, '$1'),
-            url: item.match(
-                /(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/
-            )[0],
-        };
-        subtitles.push(sub);
-    }
-
-    switch (req.params.version) {
-        case versions.V2:
-            res.status(200).json({
-                success: true,
-                data: sources,
-            });
-            break;
-
-        case versions.V3:
-            res.status(200).json({
-                success: true,
-                data: { sources, subtitles, subtitle_lns },
-            });
-            break;
-        default:
-            res.status(200).json({
-                success: true,
-                data: sources,
-            });
-            break;
-    }
+    res.status(200).json({
+        success: true,
+        data: sources,
+    });
 });
 
 exports.getIMDbInfo = catchAsync(async (req, res, next) => {
