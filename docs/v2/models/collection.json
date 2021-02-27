@@ -1,0 +1,58 @@
+{
+    "CollectionCreate": {
+        "properties": {
+            "title": {
+                "type": "object",
+                "properties": {
+                    "en": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "ru": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "movies": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "CollectionUpdate": {
+        "properties": {
+            "title": {
+                "type": "object",
+                "properties": {
+                    "en": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "ru": {
+                        "type": "string",
+                        "required": true
+                    }
+                }
+            },
+            "movies": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "PushMedia": {
+        "properties": {
+            "data": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

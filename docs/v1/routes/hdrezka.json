@@ -1,0 +1,92 @@
+{
+    "/api/animes/hdsearch": {
+        "post": {
+            "description": "Search movie from HDRezka",
+            "tags": [
+                "HDRezka"
+            ],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/getIDfromHDRezka"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/animes/hdsources": {
+        "post": {
+            "description": "Get movie sources from HDRezka",
+            "tags": [
+                "HDRezka"
+            ],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/getSourcesfromHDRezka"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/animes/imdb": {
+        "get": {
+            "description": "Get movie info from imdb",
+            "tags": [
+                "HDRezka"
+            ],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "id",
+                    "description": "IMDb id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/animes/hdMultiple": {
+        "get": {
+            "description": "Get movie translations from hdrezka",
+            "tags": [
+                "HDRezka"
+            ],
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "title",
+                    "description": "Movie title",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    }
+}

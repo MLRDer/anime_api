@@ -1,0 +1,97 @@
+{
+    "/api/errors/": {
+        "get": {
+            "description": "Get all errors",
+            "tags": ["Errors"],
+
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "post": {
+            "description": "Create error",
+            "tags": ["Errors"],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/ErrorCreate"
+                    }
+                }
+            ],
+            "responses": {
+                "201": {
+                    "description": "OK"
+                }
+            }
+        }
+    },
+    "/api/errors/{id}": {
+        "get": {
+            "description": "Get error by ID",
+            "tags": ["Errors"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Error ID",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "patch": {
+            "description": "Update error",
+            "tags": ["Errors"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Error ID",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/ErrorUpdate"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        },
+        "delete": {
+            "description": "Delete error",
+            "tags": ["Errors"],
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "id",
+                    "description": "Error ID",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "responses": {
+                "204": {
+                    "description": "OK"
+                }
+            }
+        }
+    }
+}

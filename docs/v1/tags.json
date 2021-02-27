@@ -1,0 +1,18 @@
+[
+    {
+        "name": "Animes",
+        "description": "Anime endpoints."
+    },
+    {
+        "name": "Collections",
+        "description": "Collection endpoints."
+    },
+    {
+        "name": "HDRezka",
+        "description": "HDRezka endpoinds"
+    },
+    {
+        "name": "Errors",
+        "description": "Error endpoints"
+    }
+]

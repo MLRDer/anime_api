@@ -1,0 +1,32 @@
+{
+    "getIDfromHDRezka": {
+        "properties": {
+            "search": {
+                "type": "string",
+                "required": true
+            }
+        }
+    },
+    "getSourcesfromHDRezka": {
+        "properties": {
+            "id": {
+                "type": "string",
+                "required": true
+            },
+            "translator_id": {
+                "type": "string",
+                "required": true
+            },
+            "isSerial": {
+                "type": "boolean",
+                "default": false
+            },
+            "season": {
+                "type": "string"
+            },
+            "episode": {
+                "type": "string"
+            }
+        }
+    }
+}

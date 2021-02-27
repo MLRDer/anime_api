@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Actors",
+        "description": "Actor endpoints"
+    },
+    {
+        "name": "Movies",
+        "description": "Movie endpoints"
+    },
+    {
+        "name": "HDRezka",
+        "description": "HDRezka endpoinds"
+    },
+    {
+        "name": "Collections",
+        "description": "Collection endpoints."
+    },
+    {
+        "name": "Errors",
+        "description": "Error endpoints"
+    },
+    {
+        "name": "Categories",
+        "description": "Category endpoints"
+    }
+]
