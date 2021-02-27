@@ -2,6 +2,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const FormData = require('form-data');
 const errors = require('../constants/errors');
+const versions = require('../constants/versions');
 const axios = require('axios');
 require('dotenv/config');
 const cheerio = require('cheerio');
@@ -67,11 +68,11 @@ exports.getSources = catchAsync(async (req, res, next) => {
 
     const data = await axios(config);
 
-    let str = data.data.url;
+    let { url, subtitle } = data.data;
 
-    str = str.split(',');
+    url = url.split(',');
     let sources = [];
-    for (let item of str) {
+    for (let item of url) {
         let source = {
             quality: item
                 .match(/\[+(.*?)\]+/g)[0]
@@ -81,10 +82,35 @@ exports.getSources = catchAsync(async (req, res, next) => {
         sources.push(source);
     }
 
-    res.status(200).json({
-        success: true,
-        data: sources,
-    });
+    subtitle = subtitle.split(',');
+    let subtitles = [];
+    for (let item of subtitle) {
+        let sub = {
+            language: item
+                .match(/\[+(.*?)\]+/g)[0]
+                .replace(/\[+(.*?)\]+/g, '$1'),
+            url: item.match(/'(http:[^\s]+)'/)[1],
+        };
+        subtitles.push(sub);
+    }
+
+    switch (req.params.version) {
+        case versions.V2:
+            res.status(200).json({
+                success: true,
+                data: sources,
+            });
+            break;
+
+        case versions.V3:
+            res.status(200).json({
+                success: true,
+                data: { sources, subtitles, subtitle_lns },
+            });
+            break;
+        default:
+            break;
+    }
 });
 
 exports.getIMDbInfo = catchAsync(async (req, res, next) => {

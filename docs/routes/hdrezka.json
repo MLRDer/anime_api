@@ -19,13 +19,20 @@
             }
         }
     },
-    "/api/v2/hdrezka/sources": {
+    "/api/{version}/hdrezka/sources": {
         "post": {
             "description": "Get movie sources from HDRezka",
             "tags": [
                 "HDRezka2"
             ],
             "parameters": [
+                {
+                    "in": "path",
+                    "name": "version",
+                    "description": "API Version",
+                    "required": true,
+                    "type": "string"
+                },
                 {
                     "in": "body",
                     "name": "Body",
