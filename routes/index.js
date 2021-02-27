@@ -1,5 +1,6 @@
 const v1 = require('./v1');
 const v2 = require('./v2');
+const v3 = require('./v3');
 
 const error = require('./errors');
 const update = require('./update');
@@ -20,4 +21,7 @@ module.exports = (app) => {
 
     // V2
     app.use('/api/v2', v2);
+
+    // V3
+    app.use('/api/v3', v3);
 };

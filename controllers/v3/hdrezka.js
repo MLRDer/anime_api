@@ -63,7 +63,7 @@ exports.getSources = catchAsync(async (req, res, next) => {
 
     const data = await axios(config);
 
-    let { url, subtitle } = data.data;
+    let { url, subtitle, subtitle_lns } = data.data;
 
     url = url.split(',');
     let sources = [];
@@ -95,7 +95,6 @@ exports.getSources = catchAsync(async (req, res, next) => {
         success: true,
         data: { sources, subtitles, subtitle_lns },
     });
-    break;
 });
 
 exports.getIMDbInfo = catchAsync(async (req, res, next) => {

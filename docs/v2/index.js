@@ -38,9 +38,4 @@ module.exports = {
     tags,
     definitions,
     paths,
-    schemes: process.env.NODE_ENV == 'development' ? ['http'] : ['https'],
-    host:
-        process.env.NODE_ENV == 'development'
-            ? process.env.BASE_URL_DEV
-            : process.env.BASE_URL_PROD,
 };
