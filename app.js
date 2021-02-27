@@ -10,11 +10,11 @@ const indexRouter = require('./routes');
 const app = express();
 
 // Middlewares
-app.enable('trust proxy');
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+app.enable('trust proxy');
 
 // Routes
 app.get('/', (_, res) =>
