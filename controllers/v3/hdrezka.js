@@ -77,18 +77,20 @@ exports.getSources = catchAsync(async (req, res, next) => {
         sources.push(source);
     }
 
-    subtitle = subtitle.split(',');
     let subtitles = [];
-    for (let item of subtitle) {
-        let sub = {
-            language: item
-                .match(/\[+(.*?)\]+/g)[0]
-                .replace(/\[+(.*?)\]+/g, '$1'),
-            url: item.match(
-                /(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/
-            )[0],
-        };
-        subtitles.push(sub);
+    if (subtitle) {
+        subtitle = subtitle.split(',');
+        for (let item of subtitle) {
+            let sub = {
+                language: item
+                    .match(/\[+(.*?)\]+/g)[0]
+                    .replace(/\[+(.*?)\]+/g, '$1'),
+                url: item.match(
+                    /(http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/
+                )[0],
+            };
+            subtitles.push(sub);
+        }
     }
 
     res.status(200).json({
