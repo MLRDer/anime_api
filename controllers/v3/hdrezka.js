@@ -4,6 +4,7 @@ const cheerio = require('cheerio');
 const FormData = require('form-data');
 const IMDBScraper = require('imdb-scraper');
 const catchAsync = require('../../utils/catchAsync');
+const translators = require('../../constants/translator');
 
 const Imdb = new IMDBScraper({ requestDefaults: {}, maxRetries: 3 });
 
@@ -161,7 +162,9 @@ exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
             });
         if (match && match.length && match[2]) {
             translators.push({
-                name: country,
+                name:
+                    translators.find((el) => el.translator_id == match[2])
+                        ?.name || country,
                 translator_id: match[2],
             });
         }
