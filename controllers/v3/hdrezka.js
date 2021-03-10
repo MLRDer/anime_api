@@ -135,20 +135,40 @@ exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
     data = await axios.get(links[0].attribs.href);
 
     let list_data;
-    let result = [];
+    let translators = [];
     $ = cheerio.load(data.data);
     $('ul[id=translators-list]')
         .find('li')
-        .each((index, element) => {
+        .each((_, element) => {
             list_data = $(element).attr();
-            result.push({
+            translators.push({
                 name: list_data.title,
                 translator_id: list_data['data-translator_id'],
             });
         });
 
+    if (!translators.length) {
+        var match = data.data.match(
+            /sof.tv.initCDNMoviesEvents\((.+)\, (.+)\, 'rezka.ag'/
+        );
+        let country = 'Country: ';
+        $('table[class=b-post__info]')
+            .find('td')
+            .each((index, element) => {
+                if (index == 5) {
+                    country += $(element).text();
+                }
+            });
+        if (match && match.length && match[2]) {
+            translators.push({
+                name: country,
+                translator_id: match[2],
+            });
+        }
+    }
+
     res.status(200).json({
         success: true,
-        data: result,
+        data: translators,
     });
 });
