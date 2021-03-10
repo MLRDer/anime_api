@@ -149,7 +149,12 @@ exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
                 (el) => el.translator_id == match[2]
             );
             result.push({
+<<<<<<< HEAD
                 name: something ? something.name : country,
+=======
+                name:
+                    translators.find((el) => el.translator_id == match[2])?.name || country,
+>>>>>>> 1c7fd949c2fa2ca0f37b4f595d19702fb088ce7e
                 translator_id: match[2],
             });
         }
