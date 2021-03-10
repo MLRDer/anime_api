@@ -134,6 +134,26 @@ exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
             });
         });
 
+    if (!result.length) {
+        var match = data.data.match(
+            /sof.tv.initCDNMoviesEvents\((.+)\, (.+)\, 'rezka.ag'/
+        );
+        let country = 'Country: ';
+        $('table[class=b-post__info]')
+            .find('td')
+            .each((index, element) => {
+                if (index == 5) {
+                    country += $(element).text();
+                }
+            });
+        if (match && match.length && match[2]) {
+            result.push({
+                name: country,
+                translator_id: match[2],
+            });
+        }
+    }
+
     res.status(200).json({
         success: true,
         data: result,
