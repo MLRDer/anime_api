@@ -3,8 +3,9 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const FormData = require('form-data');
 const IMDBScraper = require('imdb-scraper');
+const Movie = require('../../models/Movie');
 const catchAsync = require('../../utils/catchAsync');
-const translators = require('../../constants/translator');
+const translator = require('../../constants/translator');
 
 const Imdb = new IMDBScraper({ requestDefaults: {}, maxRetries: 3 });
 
@@ -70,6 +71,14 @@ exports.getSources = catchAsync(async (req, res, next) => {
 
     let { url, subtitle, subtitle_lns } = data.data;
 
+    if (!url) {
+        const movie = await Movie.findOne({ hdrezka: req.body.id }).lean();
+        const html = await axios.get(movie.hdrezkaUrl);
+        var match = html.data.match(/"streams":"(.+)","default_quality"/);
+        if (match && match.length && match[1])
+            url = match[1].replace(/\\\//g, '/');
+    }
+
     let sources = [];
     if (url) {
         url = url.split(',');
@@ -83,12 +92,6 @@ exports.getSources = catchAsync(async (req, res, next) => {
             sources.push(source);
         }
     }
-
-    // if (!sources.length) {
-    //     /\"streams\": \"(.+)\"\,/;
-    //     var match = data.data.match(/\"streams\": \"(.+)\"\,/);
-    //     console.log(match[0]);
-    // }
 
     let subtitles = [];
     if (subtitle) {
@@ -112,6 +115,51 @@ exports.getSources = catchAsync(async (req, res, next) => {
     });
 });
 
+exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
+    const data = await axios.get(req.query.url);
+
+    let list_data;
+    let result = [];
+    $ = cheerio.load(data.data);
+    $('ul[id=translators-list]')
+        .find('li')
+        .each((index, element) => {
+            list_data = $(element).attr();
+            result.push({
+                name: list_data.title,
+                translator_id: list_data['data-translator_id'],
+            });
+        });
+
+    if (!result.length) {
+        var match = data.data.match(
+            /sof.tv.initCDNMoviesEvents\((.+)\, (.+)\, 'rezka.ag'/
+        );
+        let country = 'Country: ';
+        $('table[class=b-post__info]')
+            .find('td')
+            .each((index, element) => {
+                if (index == 5) {
+                    country += $(element).text();
+                }
+            });
+        if (match && match.length && match[2]) {
+            const something = translator.find(
+                (el) => el.translator_id == match[2]
+            );
+            result.push({
+                name: something ? something.name : country,
+                translator_id: match[2],
+            });
+        }
+    }
+
+    res.status(200).json({
+        success: true,
+        data: result,
+    });
+});
+
 exports.getIMDbInfo = catchAsync(async (req, res, next) => {
     Imdb.title(req.query.id)
         .then((data) => {
@@ -126,65 +174,4 @@ exports.getIMDbInfo = catchAsync(async (req, res, next) => {
                 data: null,
             });
         });
-});
-
-exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
-    const body = new FormData();
-    body.append('q', req.query.title);
-
-    var config = {
-        method: 'post',
-        url: 'https://rezka.ag/engine/ajax/search.php',
-        headers: {
-            ...body.getHeaders(),
-        },
-        data: body,
-    };
-
-    let data = await axios(config);
-    let $ = cheerio.load(data.data);
-
-    let links = $('a');
-    data = await axios.get(links[0].attribs.href);
-
-    let list_data;
-    let translators = [];
-    $ = cheerio.load(data.data);
-    $('ul[id=translators-list]')
-        .find('li')
-        .each((_, element) => {
-            list_data = $(element).attr();
-            translators.push({
-                name: list_data.title,
-                translator_id: list_data['data-translator_id'],
-            });
-        });
-
-    if (!translators.length) {
-        var match = data.data.match(
-            /sof.tv.initCDNMoviesEvents\((.+)\, (.+)\, 'rezka.ag'/
-        );
-        let country = 'Country: ';
-        $('table[class=b-post__info]')
-            .find('td')
-            .each((index, element) => {
-                if (index == 5) {
-                    country += $(element).text();
-                }
-            });
-        if (match && match.length && match[2]) {
-            const something = translators.find(
-                (el) => el.translator_id == match[2]
-            );
-            result.push({
-                name: something ? something.name : country,
-                translator_id: match[2],
-            });
-        }
-    }
-
-    res.status(200).json({
-        success: true,
-        data: translators,
-    });
 });

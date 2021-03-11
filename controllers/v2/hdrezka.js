@@ -2,8 +2,9 @@ require('dotenv/config');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const FormData = require('form-data');
+const Movie = require('../../models/Movie');
 const catchAsync = require('../../utils/catchAsync');
-const translators = require('../../constants/translator');
+const translator = require('../../constants/translator');
 
 const IMDBScraper = require('imdb-scraper');
 const Imdb = new IMDBScraper({ requestDefaults: {}, maxRetries: 3 });
@@ -70,6 +71,14 @@ exports.getSources = catchAsync(async (req, res, next) => {
 
     let { url } = data.data;
 
+    if (!url) {
+        const movie = await Movie.findOne({ hdrezka: req.body.id }).lean();
+        const html = await axios.get(movie.hdrezkaUrl);
+        var match = html.data.match(/"streams":"(.+)","default_quality"/);
+        if (match && match.length && match[1])
+            url = match[1].replace(/\\\//g, '/');
+    }
+
     let sources = [];
     if (url) {
         url = url.split(',');
@@ -90,40 +99,8 @@ exports.getSources = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.getIMDbInfo = catchAsync(async (req, res, next) => {
-    Imdb.title(req.query.id)
-        .then((data) => {
-            res.status(200).json({
-                success: true,
-                data: data,
-            });
-        })
-        .catch((err) => {
-            res.status(400).json({
-                success: false,
-                data: null,
-            });
-        });
-});
-
 exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
-    const body = new FormData();
-    body.append('q', req.query.title);
-
-    var config = {
-        method: 'post',
-        url: 'https://rezka.ag/engine/ajax/search.php',
-        headers: {
-            ...body.getHeaders(),
-        },
-        data: body,
-    };
-
-    let data = await axios(config);
-    let $ = cheerio.load(data.data);
-
-    let links = $('a');
-    data = await axios.get(links[0].attribs.href);
+    const data = await axios.get(req.query.url);
 
     let list_data;
     let result = [];
@@ -151,7 +128,7 @@ exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
                 }
             });
         if (match && match.length && match[2]) {
-            const something = translators.find(
+            const something = translator.find(
                 (el) => el.translator_id == match[2]
             );
             result.push({
@@ -165,4 +142,20 @@ exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
         success: true,
         data: result,
     });
+});
+
+exports.getIMDbInfo = catchAsync(async (req, res, next) => {
+    Imdb.title(req.query.id)
+        .then((data) => {
+            res.status(200).json({
+                success: true,
+                data: data,
+            });
+        })
+        .catch((err) => {
+            res.status(400).json({
+                success: false,
+                data: null,
+            });
+        });
 });
