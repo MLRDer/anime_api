@@ -51,6 +51,9 @@ const movieSchema = new Schema({
     hdrezka: {
         type: Number,
     },
+    hdrezkaUrl: {
+        type: String,
+    },
     tmdbId: {
         type: Number,
     },

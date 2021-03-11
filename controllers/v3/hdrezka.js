@@ -30,13 +30,17 @@ exports.getID = catchAsync(async (req, res, next) => {
     let str = data.data;
 
     // extract movie id from html
-    str = str.slice(str.search('http'));
+    const url = str.slice(str.search('http'));
+    str = url;
     str = str.slice(0, str.search('>') - 1);
     const id = str.slice(str.lastIndexOf('/') + 1, str.search('-'));
 
     res.status(200).json({
         success: true,
-        data: id,
+        data: {
+            id,
+            url: str,
+        },
     });
 });
 
@@ -66,17 +70,25 @@ exports.getSources = catchAsync(async (req, res, next) => {
 
     let { url, subtitle, subtitle_lns } = data.data;
 
-    url = url.split(',');
     let sources = [];
-    for (let item of url) {
-        let source = {
-            quality: item
-                .match(/\[+(.*?)\]+/g)[0]
-                .replace(/\[+(.*?)\]+/g, '$1'),
-            url: item.slice(item.search('or ') + 3),
-        };
-        sources.push(source);
+    if (url) {
+        url = url.split(',');
+        for (let item of url) {
+            let source = {
+                quality: item
+                    .match(/\[+(.*?)\]+/g)[0]
+                    .replace(/\[+(.*?)\]+/g, '$1'),
+                url: item.slice(item.search('or ') + 3),
+            };
+            sources.push(source);
+        }
     }
+
+    // if (!sources.length) {
+    //     /\"streams\": \"(.+)\"\,/;
+    //     var match = data.data.match(/\"streams\": \"(.+)\"\,/);
+    //     console.log(match[0]);
+    // }
 
     let subtitles = [];
     if (subtitle) {
