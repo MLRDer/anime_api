@@ -173,10 +173,11 @@ exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
                 }
             });
         if (match && match.length && match[2]) {
-            translators.push({
-                name:
-                    translators.find((el) => el.translator_id == match[2])
-                        ?.name || country,
+            const something = translators.find(
+                (el) => el.translator_id == match[2]
+            );
+            result.push({
+                name: something ? something.name : country,
                 translator_id: match[2],
             });
         }
