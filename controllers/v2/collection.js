@@ -1,10 +1,12 @@
+const mongoose = require('mongoose');
+const Movie = require('../../models/Movie');
 const Collection2 = require('../../models/Collection2');
 const catchAsync = require('../../utils/catchAsync');
 const AppError = require('../../utils/appError');
 const errors = require('../../constants/errors');
 
 exports.getAll = catchAsync(async (req, res, next) => {
-    const collection2s = await Collection2.find()
+    const collections = await Collection2.find()
         .populate({
             path: 'movies',
             match: { isActive: true },
@@ -16,32 +18,53 @@ exports.getAll = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        data: collection2s,
+        data: collections,
     });
 });
 
 exports.get = catchAsync(async (req, res, next) => {
-    const collection2 = await Collection2.findById(req.params.id)
-        .populate({
-            path: 'movies',
-            match: { isActive: true },
-            select:
-                '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
-        })
-        .lean();
+    let collection;
 
-    if (!collection2) return next(new AppError(404, errors.NOT_FOUND));
+    if (req.query.generated && req.query.generated == 'true') {
+        const movies = await Movie.find({
+            _id: {
+                $in: req.params.id
+                    .split(',')
+                    .map((id) => mongoose.Types.ObjectId(id)),
+            },
+            isActive: true,
+        })
+            .select(
+                '_id ru.title en.title ru.poster en.poster rating createdAt views'
+            )
+            .lean();
+
+        collection = {
+            movies,
+        };
+    } else {
+        collection = await Collection2.findById(req.params.id)
+            .populate({
+                path: 'movies',
+                match: { isActive: true },
+                select:
+                    '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
+            })
+            .lean();
+    }
+
+    if (!collection) return next(new AppError(404, errors.NOT_FOUND));
 
     res.status(200).json({
         success: true,
-        data: collection2,
+        data: collection,
     });
 });
 
 exports.create = catchAsync(async (req, res, next) => {
-    const coll2 = await Collection2.create(req.body);
+    const coll = await Collection2.create(req.body);
 
-    const collection2 = await Collection2.findById(coll2._id)
+    const collection = await Collection2.findById(coll._id)
         .populate({
             path: 'movies',
             match: { isActive: true },
@@ -52,12 +75,12 @@ exports.create = catchAsync(async (req, res, next) => {
 
     res.status(201).json({
         success: true,
-        data: collection2,
+        data: collection,
     });
 });
 
 exports.update = catchAsync(async (req, res, next) => {
-    const collection2 = await Collection2.findByIdAndUpdate(
+    const collection = await Collection2.findByIdAndUpdate(
         req.params.id,
         req.body,
         { new: true, runValidators: true }
@@ -70,16 +93,16 @@ exports.update = catchAsync(async (req, res, next) => {
         })
         .lean();
 
-    if (!collection2) return next(new AppError(404, errors.NOT_FOUND));
+    if (!collection) return next(new AppError(404, errors.NOT_FOUND));
 
     res.status(200).json({
         success: true,
-        data: collection2,
+        data: collection,
     });
 });
 
 exports.push = catchAsync(async (req, res, next) => {
-    const collection2 = await Collection2.findByIdAndUpdate(
+    const collection = await Collection2.findByIdAndUpdate(
         req.params.id,
         {
             $push: {
@@ -93,7 +116,7 @@ exports.push = catchAsync(async (req, res, next) => {
 
     res.status(200).json({
         success: true,
-        data: collection2,
+        data: collection,
     });
 });
 

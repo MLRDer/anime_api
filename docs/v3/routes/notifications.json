@@ -1,0 +1,25 @@
+{
+    "/api/v3/notifications/send": {
+        "post": {
+            "description": "Send notification to users",
+            "tags": [
+                "Notifications"
+            ],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/notificationBody"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    }
+}

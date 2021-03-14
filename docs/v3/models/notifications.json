@@ -1,0 +1,23 @@
+{
+    "notificationBody": {
+        "properties": {
+            "title": {
+                "type": "object",
+                "required": true
+            },
+            "message": {
+                "type": "object",
+                "required": true
+            },
+            "bigText": {
+                "type": "object"
+            },
+            "image": {
+                "type": "string"
+            },
+            "deeplink": {
+                "type": "string"
+            }
+        }
+    }
+}

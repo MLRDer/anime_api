@@ -73,8 +73,8 @@
             "parameters": [
                 {
                     "in": "query",
-                    "name": "title",
-                    "description": "Movie title",
+                    "name": "url",
+                    "description": "HDrezka url of the movie",
                     "required": true,
                     "type": "string"
                 }
