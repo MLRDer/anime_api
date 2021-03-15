@@ -13,7 +13,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
             select:
                 '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
         })
-        .sort({ createdAt: -1 })
+        .sort({ order: -1 })
         .lean();
 
     res.status(200).json({
