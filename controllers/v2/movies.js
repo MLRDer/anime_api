@@ -153,7 +153,7 @@ exports.card = catchAsync(async (req, res, next) => {
             select:
                 '_id en.title ru.title en.image ru.image en.poster ru.poster rating',
         })
-        .sort({ order: -1 })
+        .sort({ order: 1 })
         .lean();
 
     res.status(200).json({
