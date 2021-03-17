@@ -116,7 +116,7 @@ exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
         });
 
     if (!result.length) {
-        var match = data.data.match(
+        let match = data.data.match(
             /sof.tv.initCDNMoviesEvents\((.+)\, (.+)\, 'rezka.ag'/
         );
         let country = 'Country: ';
@@ -127,6 +127,13 @@ exports.getAllAvailableTranslators = catchAsync(async (req, res, next) => {
                     country += $(element).text();
                 }
             });
+
+        if (!match) {
+            match = data.data.match(
+                /sof.tv.initCDNSeriesEvents\((.+)\, (.+)\, (.+)\, (.+)\, (.+)\, 'rezka.ag'/
+            );
+        }
+
         if (match && match.length && match[2]) {
             const something = translator.find(
                 (el) => el.translator_id == match[2]
