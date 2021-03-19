@@ -132,6 +132,13 @@ const movieSchema = new Schema({
                         },
                     ],
                 },
+                subtitles: [
+                    {
+                        lang_code: String,
+                        language: String,
+                        url: String,
+                    },
+                ],
                 image: String,
             },
         ],
