@@ -12,6 +12,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
             match: { isActive: true },
             select:
                 '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
+            options: { sort: { releaseDate: -1 } },
         })
         .sort({ order: 1 })
         .lean();
@@ -49,6 +50,7 @@ exports.get = catchAsync(async (req, res, next) => {
                 match: { isActive: true },
                 select:
                     '_id en.title ru.title rating en.image en.poster ru.image ru.poster',
+                options: { sort: { releaseDate: -1 } },
             })
             .lean();
     }

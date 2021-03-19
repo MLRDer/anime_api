@@ -152,6 +152,7 @@ exports.card = catchAsync(async (req, res, next) => {
             match: { isActive: true },
             select:
                 '_id en.title ru.title en.image ru.image en.poster ru.poster rating',
+            options: { sort: { releaseDate: -1 } },
         })
         .sort({ order: 1 })
         .lean();
