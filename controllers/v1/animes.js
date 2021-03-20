@@ -102,7 +102,7 @@ exports.movieCreate = catchAsync(async (req, res, next) => {
     str = str.slice(str.search('http'));
     str = str.slice(0, str.search('>') - 1);
     const id = str.slice(str.lastIndexOf('/') + 1, str.search('-'));
-    //console.log(id);
+
     const isAvailable = await hdrezkaTest(id);
 
     res.status(201).json({
@@ -123,8 +123,6 @@ exports.getSources = catchAsync(async (req, res, next) => {
     } else {
         body.append('action', 'get_movie');
     }
-
-    console.log(body);
 
     var config = {
         method: 'post',
@@ -226,7 +224,6 @@ exports.updateEpisode = catchAsync(async (req, res, next) => {
         },
         { new: true, select: 'episodes' }
     );
-    console.log(anime);
     let episode = {};
     for (let i = 0; i < anime.episodes.length; i++) {
         if (anime.episodes[i]._id == req.params.episodeId) {
