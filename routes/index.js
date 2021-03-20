@@ -26,6 +26,10 @@ module.exports = (app) => {
     app.use(
         '/api/v3',
         (req, res, next) => {
+            if (req.headers.channel == 'premium') {
+                return next();
+            }
+
             res.status(404).json({
                 success: false,
             });
