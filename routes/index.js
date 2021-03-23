@@ -23,17 +23,5 @@ module.exports = (app) => {
     app.use('/api/v2', v2);
 
     // V3
-    app.use(
-        '/api/v3',
-        (req, res, next) => {
-            if (req.headers.channel == 'premium') {
-                return next();
-            }
-
-            res.status(404).json({
-                success: false,
-            });
-        },
-        v3
-    );
+    app.use('/api/v3', v3);
 };
