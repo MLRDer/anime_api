@@ -27,5 +27,5 @@ module.exports = (app) => {
     app.use('/api/v2', v2);
 
     // V3
-    app.use('/api/v3', stop, v3);
+    app.use('/api/v3', v3);
 };
