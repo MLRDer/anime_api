@@ -13,7 +13,7 @@ exports.subscribe = catchAsync(async (req, res, next) => {
     const { topic, token } = req.body;
 
     messaging.subscribeToTopic(token, topic);
-    messaging.subscribeToTopic(token, 'all');
+    messaging.subscribeToTopic(token, req.headers.channel);
 
     res.status(200).json({
         success: true,
