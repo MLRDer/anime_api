@@ -13,6 +13,7 @@ exports.subscribe = catchAsync(async (req, res, next) => {
     const { topic, token } = req.body;
 
     messaging.subscribeToTopic(token, topic);
+    messaging.subscribeToTopic(token, 'all');
 
     res.status(200).json({
         success: true,
@@ -20,7 +21,7 @@ exports.subscribe = catchAsync(async (req, res, next) => {
 });
 
 exports.send = catchAsync(async (req, res, next) => {
-    const { bigText, message, title, image, deeplink } = req.body;
+    const { bigText, message, title, image, deeplink, topic } = req.body;
 
     // 'cassette:///collection/602534859c801234d8dcfdf9,602a6e7daa45004e989652f6?generated=true&title_ru=Novie filmi&title_en=New Movies',
 
@@ -35,7 +36,7 @@ exports.send = catchAsync(async (req, res, next) => {
             image: image || '',
             deeplink: deeplink || '',
         },
-        topic: 'all',
+        topic,
     });
 
     res.status(200).json({
