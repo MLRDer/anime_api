@@ -18,6 +18,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
         page,
         limit,
         sortBy,
+        isCard,
     } = req.query;
 
     type && (query.type = type);
@@ -27,6 +28,7 @@ exports.getAll = catchAsync(async (req, res, next) => {
     rating && (query.rating = { $gte: rating });
     isSerial && (query.isSerial = isSerial);
     isActive && (query.isActive = isActive);
+    isCard && (query.isCard = isCard);
     page = page * 1 || 1;
     limit = limit * 1 || 20;
     const skip = (page - 1) * limit;
