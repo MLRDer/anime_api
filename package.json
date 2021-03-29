@@ -19,6 +19,7 @@
     "firebase-admin": "^9.5.0",
     "form-data": "^3.0.0",
     "imdb-scraper": "^2.0.2",
+    "lodash": "^4.17.21",
     "mongoose": "^5.10.16",
     "morgan": "^1.10.0",
     "request": "^2.88.2",

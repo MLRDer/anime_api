@@ -1,7 +1,6 @@
 require('dotenv/config');
 const axios = require('axios');
 const FormData = require('form-data');
-const IMDBScraper = require('imdb-scraper');
 const Movie = require('../../models/Movie');
 const catchAsync = require('../../utils/catchAsync');
 
