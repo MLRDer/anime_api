@@ -111,15 +111,15 @@ exports.sources = catchAsync(async (req, res, next) => {
             console.log(error);
         }
 
-        if (hdrezkaSources) {
-            sources[i] = hdrezkaSources?.sources.length
-                ? hdrezkaSources.sources
-                : episode?.sources?.[i] ?? [];
-            subtitles = subtitles.concat(
-                hdrezkaSources.subtitles,
-                episode?.subtitles ?? []
-            );
-        }
+        // if (hdrezkaSources) {
+        //     sources[i] = hdrezkaSources?.sources.length
+        //         ? hdrezkaSources.sources
+        //         : episode?.sources?.[i] ?? [];
+        //     subtitles = subtitles.concat(
+        //         hdrezkaSources.subtitles,
+        //         episode?.subtitles ?? []
+        //     );
+        // }
     }
 
     res.status(200).json({
