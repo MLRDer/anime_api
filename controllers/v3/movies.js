@@ -112,12 +112,12 @@ exports.sources = catchAsync(async (req, res, next) => {
         }
 
         if (hdrezkaSources) {
-            sources[i] = hdrezkaSources.sources.length
+            sources[i] = hdrezkaSources?.sources.length
                 ? hdrezkaSources.sources
-                : episode.sources[i];
+                : episode?.sources?.[i] ?? [];
             subtitles = subtitles.concat(
                 hdrezkaSources.subtitles,
-                episode.subtitles
+                episode?.subtitles ?? []
             );
         }
     }
