@@ -1,6 +1,14 @@
 [
     {
+        "name": "Movies",
+        "description": "Movies endpoinds"
+    },
+    {
         "name": "HDRezka",
         "description": "HDRezka endpoinds"
+    },
+    {
+        "name": "Notifications",
+        "description": "Notifications endpoinds"
     }
 ]

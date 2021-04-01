@@ -103,10 +103,15 @@ exports.sources = catchAsync(async (req, res, next) => {
             payload.episode = episode.episode;
         } else {
             payload.action = hdrezkaActions.get_movie;
+            episode = movie.episodes[0];
         }
 
         try {
-            hdrezkaSources = await getHdrezkaSources(payload, movie.hdrezkaUrl);
+            if (payload.id && payload.translator_id)
+                hdrezkaSources = await getHdrezkaSources(
+                    payload,
+                    movie.hdrezkaUrl
+                );
         } catch (error) {
             console.log(error);
         }
@@ -119,6 +124,9 @@ exports.sources = catchAsync(async (req, res, next) => {
                 hdrezkaSources.subtitles,
                 episode?.subtitles ?? []
             );
+        } else {
+            sources[i] = episode?.sources?.[i] ?? [];
+            subtitles = episode?.subtitles ?? [];
         }
     }
 

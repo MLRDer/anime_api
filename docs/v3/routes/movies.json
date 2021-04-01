@@ -1,0 +1,25 @@
+{
+    "/api/v3/movies/sources": {
+        "post": {
+            "description": "Get movie sources",
+            "tags": [
+                "Movies"
+            ],
+            "parameters": [
+                {
+                    "in": "body",
+                    "name": "Body",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/Sources"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "OK"
+                }
+            }
+        }
+    }
+}

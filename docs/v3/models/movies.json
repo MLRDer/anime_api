@@ -1,0 +1,14 @@
+{
+    "Sources": {
+        "properties": {
+            "id": {
+                "type": "string",
+                "required": "true"
+            },
+            "episode": {
+                "type": "string",
+                "required": "true"
+            }
+        }
+    }
+}
